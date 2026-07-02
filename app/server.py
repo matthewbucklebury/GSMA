@@ -465,12 +465,19 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
-    def _static(self, path):
+    def _static(self, path, head_only=False):
         if path in ("/", "/index.html"):
             path = "/index.html"
         f = (STATIC / path.lstrip("/")).resolve()
         if not str(f).startswith(str(STATIC)) or not f.is_file():
-            self.send_response(404); self.end_headers(); return
+            body = b"Not Found"
+            self.send_response(404)
+            self.send_header("Content-Type", "text/plain")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            if not head_only:
+                self.wfile.write(body)
+            return
         ctype = {"html": "text/html", "js": "application/javascript",
                  "css": "text/css", "json": "application/json",
                  "svg": "image/svg+xml", "png": "image/png"}.get(
@@ -480,7 +487,18 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", f"{ctype}; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
-        self.wfile.write(data)
+        if not head_only:
+            self.wfile.write(data)
+
+    def do_HEAD(self):
+        """Health checks (Render et al.) probe with HEAD — answer like GET, no body."""
+        u = urlparse(self.path)
+        if u.path.startswith("/api/"):
+            self.send_response(200)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        self._static(u.path, head_only=True)
 
     def do_GET(self):
         u = urlparse(self.path)
