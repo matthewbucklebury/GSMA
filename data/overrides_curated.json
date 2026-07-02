@@ -1,0 +1,111 @@
+{
+  "_comment": "Curated pie-chart corrections where automated extraction cannot resolve the chart: numbered legends (Austria, Germany, Russia, Turkey), two-ring charts (Denmark), duplicated legend colours (Norway), and sub-degree sliver fans verified by wedge-edge geometry + narrative anchors (Colombia, Mexico). Values are as printed in the guide figures.",
+  "Europe/Austria": {
+    "reason": "Numbered legend; values from the printed numbered list (Figure 6). Ground vs rooftop segments.",
+    "entries": [
+      {"company": "Optimus Tower", "value": 2792, "segment": "ground"},
+      {"company": "TOWERS Infra Austria", "value": 3721, "segment": "ground"},
+      {"company": "EuroTeleSites", "value": 3067, "segment": "ground"},
+      {"company": "ORS Austria", "value": 430, "segment": "ground"},
+      {"company": "Optimus Tower", "value": 1862, "segment": "rooftop"},
+      {"company": "TOWERS Infra Austria", "value": 3669, "segment": "rooftop"},
+      {"company": "EuroTeleSites", "value": 3067, "segment": "rooftop"}
+    ]
+  },
+  "Europe/Germany": {
+    "reason": "Numbered legend; values from the printed numbered list (Figure 16). Ground vs rooftop segments.",
+    "entries": [
+      {"company": "Deutsche Funkturm", "value": 15791, "segment": "ground"},
+      {"company": "Vantage Towers", "value": 4600, "segment": "ground"},
+      {"company": "ATC Europe", "value": 5204, "segment": "ground"},
+      {"company": "Telefónica", "value": 2000, "segment": "ground"},
+      {"company": "Media Broadcast Group", "value": 450, "segment": "ground"},
+      {"company": "Phoenix Tower International", "value": 232, "segment": "ground"},
+      {"company": "5G Synergiewerk", "value": 50, "segment": "ground"},
+      {"company": "Deutsche Funkturm", "value": 19569, "segment": "rooftop"},
+      {"company": "Vantage Towers", "value": 15400, "segment": "rooftop"},
+      {"company": "ATC Europe", "value": 10000, "segment": "rooftop"},
+      {"company": "Telefónica", "value": 6900, "segment": "rooftop"}
+    ]
+  },
+  "Europe/Russia": {
+    "reason": "Numbered legend; values from the printed numbered list (Figure 29).",
+    "entries": [
+      {"company": "New Towers", "value": 34700, "segment": "ground"},
+      {"company": "MTS / Tower Infrastructure Company", "value": 23000, "segment": "ground"},
+      {"company": "Service Telecom", "value": 18396, "segment": "ground"},
+      {"company": "Tele2", "value": 13000, "segment": "ground"},
+      {"company": "Other towercos", "value": 3000, "segment": "ground", "aggregate": true},
+      {"company": "Rooftop sites", "value": 65400, "segment": "rooftop", "aggregate": true}
+    ]
+  },
+  "Europe/Turkey": {
+    "reason": "Numbered legend; values from the printed numbered list (Figure 35).",
+    "entries": [
+      {"company": "Global Tower", "value": 8815, "segment": "ground"},
+      {"company": "Vodafone", "value": 6300, "segment": "ground"},
+      {"company": "Turk Telecom", "value": 5400, "segment": "ground"},
+      {"company": "Turkcell (Universal Service Project)", "value": 1100, "segment": "ground"},
+      {"company": "Vodafone & Turk Telecom (Universal Service Project)", "value": 2500, "segment": "ground"},
+      {"company": "TRT (Turkish broadcaster)", "value": 1100, "segment": "ground"},
+      {"company": "Rooftops", "value": 25000, "segment": "rooftop", "aggregate": true}
+    ]
+  },
+  "Europe/Denmark": {
+    "reason": "Two concentric rings (ground based towers vs alternative site typologies); values verified against ring geometry and TDC/TT-Network totals in the league table.",
+    "entries": [
+      {"company": "TDC Net", "value": 1400, "segment": "ground"},
+      {"company": "TT-Network", "value": 1200, "segment": "ground"},
+      {"company": "Cellnex", "value": 1697, "segment": "ground"},
+      {"company": "Others", "value": 300, "segment": "ground", "aggregate": true},
+      {"company": "TDC Net", "value": 2400, "segment": "alternative"},
+      {"company": "TT-Network", "value": 3100, "segment": "alternative"}
+    ]
+  },
+  "Europe/Norway": {
+    "reason": "ICE's legend swatch colour is a duplicate of Telia Towers Norway's in the PDF; ICE's slice is the purple sliver at the top (value 100). Telia** are retained rooftop sites (footnote).",
+    "entries": [
+      {"company": "Telenor Infra", "value": 10971, "segment": "ground", "note": "Excludes Telenor Infra's c. 5,000 non-mobile sites"},
+      {"company": "Telia Towers Norway", "value": 1000, "segment": "ground"},
+      {"company": "Telia", "value": 4000, "segment": "rooftop", "note": "Rooftop sites retained by Telia after ground tower carve-out"},
+      {"company": "ICE", "value": 100, "segment": "ground"}
+    ]
+  },
+  "LATAM/Colombia": {
+    "reason": "Sub-degree sliver fan resolved by exact wedge-edge angles (Towernex 18.05deg=1,132 ... Continental 2deg=114) and narrative anchor 'With just 206 towers ... SBA'. Golden/Ufinet/Torrecom slivers are sub-degree; 10/2/10 assigned in figure insertion order.",
+    "entries": [
+      {"company": "American Tower", "value": 4951},
+      {"company": "Phoenix Tower International", "value": 2570},
+      {"company": "Andean Telecom Partners", "value": 1690},
+      {"company": "Towernex", "value": 1132},
+      {"company": "Tower One Wireless", "value": 524},
+      {"company": "Sites", "value": 287},
+      {"company": "IHS Towers", "value": 245},
+      {"company": "SBA Communications", "value": 206},
+      {"company": "QMC Telecom International", "value": 200},
+      {"company": "Continental Towers", "value": 114},
+      {"company": "Golden Comunicaciones", "value": 10, "confidence": "approx"},
+      {"company": "Ufinet", "value": 2, "confidence": "approx"},
+      {"company": "Torrecom", "value": 10, "confidence": "approx"},
+      {"company": "MNO captive towers", "value": 10000, "aggregate": true}
+    ]
+  },
+  "LATAM/Mexico": {
+    "reason": "Sliver fan resolved by exact wedge-edge angles (whole-degree quantised wedges); QMC and Tower One wedges are sub-visible. Monotone fan mapping; sum 43,808 matches stated 43,818.",
+    "entries": [
+      {"company": "Telesites", "value": 23805},
+      {"company": "American Tower", "value": 9686},
+      {"company": "Mexico Telecom Partners", "value": 3500},
+      {"company": "Centennial Towers", "value": 805},
+      {"company": "Phoenix Tower International", "value": 733},
+      {"company": "MX Towers", "value": 650},
+      {"company": "IIMT", "value": 600},
+      {"company": "Torrecom", "value": 300},
+      {"company": "Neutral Networks / Southern Cross (Evengroup)", "value": 302},
+      {"company": "Intelli Site Solutions", "value": 200},
+      {"company": "QMC Telecom International", "value": 220},
+      {"company": "Tower One Wireless", "value": 7},
+      {"company": "Estimated unknown MNO tower count", "value": 3000, "aggregate": true}
+    ]
+  }
+}

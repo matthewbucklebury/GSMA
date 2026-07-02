@@ -1,0 +1,4 @@
+data/gsma.db-wal
+data/gsma.db-shm
+__pycache__/
+*.pyc
