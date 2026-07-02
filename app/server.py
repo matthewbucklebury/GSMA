@@ -529,7 +529,8 @@ class Handler(BaseHTTPRequestHandler):
         return self._send(result)
 
 def main():
-    port = 8000
+    import os
+    port = int(os.environ.get("PORT", 8000))   # hosting platforms set $PORT
     if "--port" in sys.argv:
         port = int(sys.argv[sys.argv.index("--port") + 1])
     if not DB_PATH.exists():
