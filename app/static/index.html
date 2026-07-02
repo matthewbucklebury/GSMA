@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tower Ownership Explorer</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/chart.umd.min.js"></script>
+<script src="vendor/d3.v7.min.js"></script>
+<script src="vendor/topojson-client.min.js"></script>
+</head>
+<body>
+<header>
+  <h1>Tower Ownership Explorer</h1>
+  <span class="sub">Mobile site ownership by towerco &amp; MNO — TowerXchange guides + league table</span>
+  <span class="spacer"></span>
+  <label class="sub">View as of
+    <select id="global-at"><option value="">Latest</option></select>
+  </label>
+  <span class="searchwrap">
+    <input type="search" id="global-search" placeholder="Search company or country…" autocomplete="off">
+    <div class="results" id="global-search-results" style="display:none"></div>
+  </span>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-tab="league" class="active">Towerco league</button>
+  <button data-tab="mnos">MNOs</button>
+  <button data-tab="countries">Countries</button>
+  <button data-tab="map">Map</button>
+  <button data-tab="explore">Explore &amp; compare</button>
+  <button data-tab="entry">Data entry</button>
+  <button data-tab="about">About the data</button>
+</nav>
+<main>
+  <section id="tab-league">
+    <div class="stat-row" id="league-stats"></div>
+    <div class="controls">
+      <input type="search" id="league-filter" placeholder="Filter companies / owners / countries…">
+      <label>Business model
+        <select id="league-model"><option value="">All</option></select>
+      </label>
+      <label>Footprint contains
+        <input type="text" id="league-country" placeholder="e.g. Brazil" size="12">
+      </label>
+      <span class="muted small" id="league-count"></span>
+    </div>
+    <div style="overflow-x:auto"><table class="data" id="league-table"></table></div>
+  </section>
+
+  <section id="tab-mnos" hidden>
+    <p class="note-box">MNOs can be active in a market as tenants without owning sites there.
+      “Markets” come from the guides’ per-country MNO lists; “Towers owned” sums the latest
+      per-country ownership extracted from the guide pie charts.</p>
+    <div class="controls">
+      <input type="search" id="mno-filter" placeholder="Filter MNOs…">
+      <label><input type="checkbox" id="mno-owners-only"> owners only</label>
+      <span class="muted small" id="mno-count"></span>
+    </div>
+    <div style="overflow-x:auto"><table class="data" id="mno-table"></table></div>
+  </section>
+
+  <section id="tab-countries" hidden>
+    <div class="controls">
+      <input type="search" id="country-filter" placeholder="Filter countries…">
+      <label>Region <select id="country-region"><option value="">All</option></select></label>
+      <span class="muted small" id="country-count"></span>
+    </div>
+    <div style="overflow-x:auto"><table class="data" id="country-table"></table></div>
+  </section>
+
+  <section id="tab-map" hidden>
+    <div class="controls">
+      <label>Metric
+        <select id="map-metric">
+          <option value="towers_total">Total towers (est.)</option>
+          <option value="towerco_share">Towerco-owned share %</option>
+          <option value="owners_count">Number of tracked owners</option>
+          <option value="sims_per_tower">SIMs per tower</option>
+        </select>
+      </label>
+      <div class="legend-swatches" id="map-legend"></div>
+      <span class="muted small">Click a country for detail. Grey = no data extracted.</span>
+    </div>
+    <svg id="map-svg" viewBox="0 0 960 500"></svg>
+  </section>
+
+  <section id="tab-explore" hidden>
+    <div class="controls">
+      <label>Compare
+        <select id="cmp-kind">
+          <option value="country">Countries</option>
+          <option value="company">Companies</option>
+        </select>
+      </label>
+      <span class="searchwrap">
+        <input type="search" id="cmp-search" placeholder="Add up to 8…" autocomplete="off">
+        <div class="results" id="cmp-search-results" style="display:none"></div>
+      </span>
+      <label>View
+        <select id="cmp-view"></select>
+      </label>
+      <label><input type="checkbox" id="cmp-table-view"> table view</label>
+    </div>
+    <div class="chips" id="cmp-chips"></div>
+    <div class="chart-box" id="cmp-box" style="margin-top:12px">
+      <h3 id="cmp-title">Pick entities to compare</h3>
+      <canvas id="cmp-canvas" height="130"></canvas>
+      <div id="cmp-table"></div>
+      <div class="src" id="cmp-src"></div>
+    </div>
+  </section>
+
+  <section id="tab-entry" hidden>
+    <p class="note-box">Add new data points or override extracted ones. Each submission records one
+      metric — you don’t need to update every value of an entry at once. New rows are tagged as
+      manual overrides, keyed to the year &amp; quarter you give (or “unknown”), and take precedence
+      over extracted data for the same or later period. Nothing is destroyed: the full history stays
+      queryable, and overrides can be removed below.</p>
+    <form class="entry" id="entry-form">
+      <label>Metric
+        <select id="e-metric">
+          <option value="towers">Towers owned (company in country)</option>
+          <option value="towers_total">Country total towers</option>
+          <option value="towers_global">Company global towers (league)</option>
+          <option value="market_share_pct">MNO market share %</option>
+          <option value="sims_per_tower">SIMs per tower (country)</option>
+          <option value="sim_penetration_pct">SIM penetration % (country)</option>
+          <option value="population">Population (country)</option>
+          <option value="subscribers">Subscribers (country)</option>
+        </select>
+      </label>
+      <label>Country <input type="text" id="e-country" list="dl-countries" placeholder="required for country metrics"></label>
+      <label>Company <input type="text" id="e-company" list="dl-companies" placeholder="existing or new"></label>
+      <label>Company type (for new companies)
+        <select id="e-ctype">
+          <option value="">— unchanged —</option>
+          <option>towerco</option><option>mno</option><option>jv-infraco</option>
+          <option>broadcaster</option><option>government</option><option>other</option>
+        </select>
+      </label>
+      <label>Segment
+        <select id="e-segment">
+          <option value="all">all sites</option><option value="ground">ground</option>
+          <option value="rooftop">rooftop</option><option value="alternative">alternative</option>
+          <option value="broadcast">broadcast</option>
+        </select>
+      </label>
+      <label>Value <input type="text" id="e-value" placeholder="e.g. 12,500"></label>
+      <label>As-of year
+        <select id="e-year"><option value="">unknown</option></select>
+      </label>
+      <label>As-of quarter
+        <select id="e-quarter">
+          <option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option>
+        </select>
+      </label>
+      <label>Confidence
+        <select id="e-confidence">
+          <option>reported</option><option selected>estimate</option><option>approx</option><option>unknown</option>
+        </select>
+      </label>
+      <label>Source <input type="text" id="e-source" placeholder="e.g. company Q2 25 results"></label>
+      <label class="full">Note <input type="text" id="e-note" placeholder="optional context"></label>
+      <div class="full">
+        <button class="btn" type="submit">Save data point</button>
+        <span id="entry-msg"></span>
+      </div>
+    </form>
+    <datalist id="dl-countries"></datalist>
+    <datalist id="dl-companies"></datalist>
+    <h3 style="margin-top:26px">Manual entries &amp; overrides</h3>
+    <div style="overflow-x:auto"><table class="data" id="override-table"></table></div>
+  </section>
+
+  <section id="tab-about" hidden>
+    <div id="about-content" style="max-width:900px"></div>
+  </section>
+</main>
+
+<div id="drawer"><button class="close" onclick="closeDrawer()">×</button><div id="drawer-body"></div></div>
+<div id="map-tip"></div>
+<script src="app.js"></script>
+</body>
+</html>
