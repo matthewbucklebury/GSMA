@@ -73,12 +73,12 @@
     <div class="controls">
       <label>Metric
         <select id="map-metric">
-          <option value="towers_total">Total towers (est.)</option>
+          <option value="towers">Total towers (tracked owners)</option>
           <option value="towerco_share">Towerco-owned share %</option>
           <option value="owners_count">Number of tracked owners</option>
-          <option value="sims_per_tower">SIMs per tower</option>
         </select>
       </label>
+      <label><input type="checkbox" id="map-regional" checked> colour relative to region</label>
       <div class="legend-swatches" id="map-legend"></div>
       <span class="muted small">Click a country for detail. Grey = no data extracted.</span>
     </div>
@@ -117,17 +117,19 @@
       manual overrides, keyed to the year &amp; quarter you give (or “unknown”), and take precedence
       over extracted data for the same or later period. Nothing is destroyed: the full history stays
       queryable, and overrides can be removed below.</p>
+    <div class="controls" style="margin-bottom:16px">
+      <span class="muted small">Bulk entity forms:</span>
+      <button class="btn" type="button" onclick="openCountryForm()">+ Country data</button>
+      <button class="btn" type="button" onclick="openMnoForm()">+ MNO data</button>
+      <button class="btn" type="button" onclick="openTowercoForm()">+ Towerco data</button>
+      <span class="muted small">— or add a single data point below</span>
+    </div>
     <form class="entry" id="entry-form">
       <label>Metric
         <select id="e-metric">
           <option value="towers">Towers owned (company in country)</option>
-          <option value="towers_total">Country total towers</option>
-          <option value="towers_global">Company global towers (league)</option>
+          <option value="towers_global">Company total towers (league)</option>
           <option value="market_share_pct">MNO market share %</option>
-          <option value="sims_per_tower">SIMs per tower (country)</option>
-          <option value="sim_penetration_pct">SIM penetration % (country)</option>
-          <option value="population">Population (country)</option>
-          <option value="subscribers">Subscribers (country)</option>
         </select>
       </label>
       <label>Country <input type="text" id="e-country" list="dl-countries" placeholder="required for country metrics"></label>
@@ -160,6 +162,15 @@
           <option>reported</option><option selected>estimate</option><option>approx</option><option>unknown</option>
         </select>
       </label>
+      <label>Data quality
+        <select id="e-verification">
+          <option value="public_unverified" selected>Public, not GSMA verified</option>
+          <option value="public_trusted">Public, trusted</option>
+          <option value="public_gsma_verified">Public, GSMA verified</option>
+          <option value="private_gsma_verified">Private, GSMA verified</option>
+          <option value="estimated">Estimated</option>
+        </select>
+      </label>
       <label>Source <input type="text" id="e-source" placeholder="e.g. company Q2 25 results"></label>
       <label class="full">Note <input type="text" id="e-note" placeholder="optional context"></label>
       <div class="full">
@@ -179,6 +190,12 @@
 </main>
 
 <div id="drawer"><button class="close" onclick="closeDrawer()">×</button><div id="drawer-body"></div></div>
+<div id="entity-modal" hidden>
+  <div class="modal-box">
+    <button class="close" onclick="closeEntityForm()">×</button>
+    <div id="entity-form-body"></div>
+  </div>
+</div>
 <div id="map-tip"></div>
 <script src="app.js"></script>
 </body>

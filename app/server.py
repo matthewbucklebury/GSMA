@@ -27,10 +27,18 @@ ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT.parent / "data" / "gsma.db"
 STATIC = ROOT / "static"
 
-METRICS = ["towers", "towers_total", "towers_global", "market_share_pct",
-           "population", "subscribers", "sims_per_tower", "sim_penetration_pct"]
+METRICS = ["towers", "towers_global", "market_share_pct"]
 SEGMENTS = ["all", "ground", "rooftop", "alternative", "broadcast"]
 CONFIDENCES = ["reported", "estimate", "inferred", "approx", "unknown"]
+DATA_QUALITY_LEVELS = {
+    "public_gsma_verified": "Public data, GSMA verified",
+    "public_trusted": "Public data, trusted but not GSMA verified",
+    "public_unverified": "Public data, not GSMA verified",
+    "private_gsma_verified": "Private data, GSMA verified",
+    "estimated": "Estimated",
+}
+RETIRED_METRICS = ("sims_per_tower", "sim_penetration_pct", "subscribers",
+                   "population", "towers_total")
 
 def db():
     con = sqlite3.connect(DB_PATH)
@@ -96,13 +104,15 @@ def api_meta(q):
     con.close()
     return {"periods": [f"{r['y']}Q{r['qt']}" for r in periods],
             "regions": regions, "metrics": METRICS, "segments": SEGMENTS,
-            "confidences": CONFIDENCES, "counts": counts}
+            "confidences": CONFIDENCES,
+            "data_quality_levels": DATA_QUALITY_LEVELS, "counts": counts}
 
 def api_league(q):
     at = parse_at(q)
     con = db()
     league = rowdicts(con.execute(
-        """SELECT le.*, c.name company, c.type, c.business_model, c.owners
+        """SELECT le.*, c.name company, c.type, c.business_model, c.owners,
+                  c.verification_level, c.last_updated
            FROM league_entries le JOIN companies c ON c.id = le.company_id
            ORDER BY le.towers DESC"""))
     # guide-derived country sums (latest per country, 'all' rollup)
@@ -116,10 +126,17 @@ def api_league(q):
     for r in con.execute("""SELECT f.company_id, k.name FROM footprints f
                             JOIN countries k ON k.id=f.country_id"""):
         fps.setdefault(r["company_id"], []).append(r["name"])
+    tenants = {}
+    for r in con.execute("SELECT towerco_id, tenant_name FROM anchor_tenancies"):
+        tenants.setdefault(r["towerco_id"], []).append(r["tenant_name"])
     for l in league:
         l["as_of"] = period_str(l)
         l.update(sums.get(l["company_id"], {}))
+        l["towers_sum"] = l.get("guide_sum")
         l["footprint"] = sorted(fps.get(l["company_id"], []))
+        l["known_tenants"] = sorted(tenants.get(l["company_id"], []))
+        l["data_quality"] = l.get("verification_level") or "public_unverified"
+        l["data_quality_label"] = DATA_QUALITY_LEVELS.get(l["data_quality"], "Unknown")
     con.close()
     return {"league": league}
 
@@ -127,61 +144,74 @@ def api_mnos(q):
     at = parse_at(q)
     con = db()
     pres = {}
+    def entry(r):
+        return pres.setdefault(r["company_id"], {
+            "company_id": r["company_id"], "company": r["company"],
+            "type": r["type"],
+            "footprint": [],        # markets the MNO is active in (may be tenant only)
+            "owns_in": {},          # country -> towers owned
+            "towers_owned": 0,
+            "towercos": [],         # towercos it leases from (anchor tenant of)
+        })
     for r in con.execute("""SELECT p.company_id, c.name company, c.type, k.name country, k.region
                             FROM mno_presences p JOIN companies c ON c.id=p.company_id
                             JOIN countries k ON k.id=p.country_id"""):
-        d = pres.setdefault(r["company_id"], {"company_id": r["company_id"],
-                                              "company": r["company"], "type": r["type"],
-                                              "markets": [], "owned": {}, "towers_owned": 0,
-                                              "anchor_tenant_of": []})
-        d["markets"].append({"country": r["country"], "region": r["region"]})
+        entry(r)["footprint"].append({"country": r["country"], "region": r["region"]})
     for r in con.execute(latest_cte(at) + """
         SELECT r.company_id, c.name company, c.type, k.name country, SUM(r.value) v
         FROM ranked r JOIN companies c ON c.id=r.company_id
         JOIN countries k ON k.id=r.country_id
         WHERE r.rn=1 AND r.metric='towers' AND c.type IN ('mno','jv-infraco')
         GROUP BY r.company_id, k.name"""):
-        d = pres.setdefault(r["company_id"], {"company_id": r["company_id"],
-                                              "company": r["company"], "type": r["type"],
-                                              "markets": [], "owned": {}, "towers_owned": 0,
-                                              "anchor_tenant_of": []})
-        d["owned"][r["country"]] = r["v"]
+        d = entry(r)
+        d["owns_in"][r["country"]] = r["v"]
         d["towers_owned"] += r["v"] or 0
+        if not any(m["country"] == r["country"] for m in d["footprint"]):
+            d["footprint"].append({"country": r["country"], "region": None})
     for r in con.execute("""SELECT t.tenant_company_id cid, c2.name towerco
                             FROM anchor_tenancies t JOIN companies c2 ON c2.id=t.towerco_id
                             WHERE t.tenant_company_id IS NOT NULL"""):
         if r["cid"] in pres:
-            pres[r["cid"]]["anchor_tenant_of"].append(r["towerco"])
-    out = sorted(pres.values(), key=lambda d: (-d["towers_owned"], -len(d["markets"])))
+            pres[r["cid"]]["towercos"].append(r["towerco"])
+    # ranked by footprint breadth (number of markets), then towers owned
+    out = sorted(pres.values(),
+                 key=lambda d: (-len(d["footprint"]), -d["towers_owned"]))
     con.close()
     return {"mnos": out}
 
 def api_countries(q):
     at = parse_at(q)
     con = db()
-    countries = rowdicts(con.execute("SELECT * FROM countries ORDER BY region, name"))
-    stats = {}
-    for r in con.execute(latest_cte(at) + """
-        SELECT country_id, metric, value, value_text, as_of_year, as_of_quarter
-        FROM ranked WHERE rn=1 AND company_id IS NULL AND country_id IS NOT NULL"""):
-        stats.setdefault(r["country_id"], {})[r["metric"]] = {
-            "value": r["value"], "text": r["value_text"], "as_of": period_str(r)}
+    countries = rowdicts(con.execute("SELECT * FROM countries ORDER BY name"))
     own = {}
     for r in con.execute(latest_cte(at) + """
-        SELECT r.country_id, c.name company, c.type, SUM(r.value) v
+        SELECT r.country_id, r.company_id, c.name company, c.type, SUM(r.value) v
         FROM ranked r JOIN companies c ON c.id = r.company_id
         WHERE r.rn=1 AND r.metric='towers'
         GROUP BY r.country_id, r.company_id"""):
         own.setdefault(r["country_id"], []).append(
-            {"company": r["company"], "type": r["type"], "towers": r["v"]})
+            {"company_id": r["company_id"], "company": r["company"],
+             "type": r["type"], "towers": r["v"]})
+    mnos = {}
+    for r in con.execute("""SELECT p.country_id, p.company_id, c.name company
+                            FROM mno_presences p JOIN companies c ON c.id=p.company_id
+                            ORDER BY c.name"""):
+        mnos.setdefault(r["country_id"], []).append(
+            {"company_id": r["company_id"], "company": r["company"]})
     for c in countries:
-        c["stats"] = stats.get(c["id"], {})
         owners = sorted(own.get(c["id"], []), key=lambda o: -(o["towers"] or 0))
+        towercos = [o for o in owners if o["type"] in ("towerco", "jv-infraco")]
+        c["owners"] = owners
         c["owners_count"] = len(owners)
         c["top_owner"] = owners[0] if owners else None
+        c["towercos"] = towercos
+        c["towercos_active"] = len(towercos)
+        c["mnos"] = mnos.get(c["id"], [])
+        c["mnos_active"] = len(c["mnos"])
         tot = sum(o["towers"] or 0 for o in owners)
-        tc = sum(o["towers"] or 0 for o in owners if o["type"] in ("towerco", "jv-infraco"))
-        c["holdings_sum"] = tot
+        tc = sum(o["towers"] or 0 for o in towercos)
+        c["total_towers"] = tot          # sum of tracked owners
+        c["holdings_sum"] = tot          # kept for backward compatibility
         c["towerco_share"] = round(100 * tc / tot, 1) if tot else None
     con.close()
     return {"countries": countries}
@@ -246,16 +276,19 @@ def api_company(cid, q):
 
 def api_map(q):
     at = parse_at(q)
-    metric = (q.get("metric") or ["towers_total"])[0]
+    metric = (q.get("metric") or ["towers"])[0]
+    if metric not in ("towers", "towerco_share", "owners_count"):
+        metric = "towers"
     con = db()
     out = []
-    if metric in ("towers_total", "sims_per_tower", "sim_penetration_pct"):
+    if metric == "towers":
         rows = con.execute(latest_cte(at) + """
-            SELECT k.iso3, k.name, k.region, r.value v, r.as_of_year, r.as_of_quarter
+            SELECT k.iso3, k.name, k.region, SUM(r.value) v
             FROM ranked r JOIN countries k ON k.id=r.country_id
-            WHERE r.rn=1 AND r.company_id IS NULL AND r.metric=?""", (metric,))
+            WHERE r.rn=1 AND r.metric='towers' AND r.company_id IS NOT NULL
+            GROUP BY k.id""")
         out = [{"iso3": r["iso3"], "name": r["name"], "region": r["region"],
-                "value": r["v"], "as_of": period_str(r)} for r in rows]
+                "value": r["v"], "as_of": None} for r in rows]
     elif metric == "towerco_share":
         agg = {}
         for r in con.execute(latest_cte(at) + """
@@ -330,10 +363,37 @@ def api_compare(q):
 
 def api_search(q):
     term = (q.get("q") or [""])[0].strip()
+    search_type = (q.get("type") or ["all"])[0]   # towerco | mno | all
     if len(term) < 2:
-        return {"companies": [], "countries": []}
+        return {"companies": [], "towercos": [], "mnos": [], "countries": []}
     like = f"%{term}%"
     con = db()
+    towercos, mnos = [], []
+    if search_type in ("towerco", "all"):
+        # match by name, business model, footprint country, or tenant name
+        towercos = rowdicts(con.execute(
+            """SELECT c.id, c.name, c.type, c.business_model,
+                      (SELECT COUNT(*) FROM observations o WHERE o.company_id=c.id AND o.deleted=0) nobs
+               FROM companies c
+               WHERE c.type IN ('towerco','jv-infraco')
+                 AND (c.name LIKE ? OR c.business_model LIKE ?
+                      OR c.id IN (SELECT f.company_id FROM footprints f
+                                  JOIN countries k ON k.id=f.country_id WHERE k.name LIKE ?)
+                      OR c.id IN (SELECT towerco_id FROM anchor_tenancies WHERE tenant_name LIKE ?))
+               ORDER BY nobs DESC, c.name LIMIT 25""", (like, like, like, like)))
+    if search_type in ("mno", "all"):
+        # match by name, presence country, or towerco they anchor for
+        mnos = rowdicts(con.execute(
+            """SELECT c.id, c.name, c.type,
+                      (SELECT COUNT(*) FROM observations o WHERE o.company_id=c.id AND o.deleted=0) nobs
+               FROM companies c
+               WHERE c.type = 'mno'
+                 AND (c.name LIKE ?
+                      OR c.id IN (SELECT p.company_id FROM mno_presences p
+                                  JOIN countries k ON k.id=p.country_id WHERE k.name LIKE ?)
+                      OR c.id IN (SELECT t.tenant_company_id FROM anchor_tenancies t
+                                  JOIN companies tc ON tc.id=t.towerco_id WHERE tc.name LIKE ?))
+               ORDER BY nobs DESC, c.name LIMIT 25""", (like, like, like)))
     comps = rowdicts(con.execute(
         """SELECT c.id, c.name, c.type,
                   (SELECT COUNT(*) FROM observations o WHERE o.company_id=c.id AND o.deleted=0) nobs
@@ -342,11 +402,12 @@ def api_search(q):
         "SELECT id, name, iso3, region FROM countries WHERE name LIKE ? ORDER BY name LIMIT 25",
         (like,)))
     con.close()
-    return {"companies": comps, "countries": ctrys}
+    return {"companies": comps, "towercos": towercos, "mnos": mnos, "countries": ctrys}
 
 def api_observations_list(q):
     con = db()
-    where, args = ["o.deleted=0"], []
+    where, args = ["o.deleted=0",
+                   f"o.metric NOT IN ({','.join(repr(m) for m in RETIRED_METRICS)})"], []
     if q.get("country_id"):
         where.append("o.country_id=?"); args.append(int(q["country_id"][0]))
     if q.get("company_id"):
@@ -363,6 +424,193 @@ def api_observations_list(q):
         r["as_of"] = period_str(r)
     con.close()
     return {"observations": rows}
+
+def get_or_create_company(con, name, ctype=None):
+    """Get a company id by name (case-insensitive) or create it."""
+    name = re.sub(r"\s+", " ", str(name)).strip()
+    if not name:
+        return None
+    r = con.execute("SELECT id FROM companies WHERE name=? COLLATE NOCASE", (name,)).fetchone()
+    if r:
+        return r["id"]
+    return con.execute(
+        """INSERT INTO companies(name, type, verification_level, last_updated)
+           VALUES (?,?,?,datetime('now'))""",
+        (name, ctype or "unknown", "public_unverified")).lastrowid
+
+def get_or_create_country(con, name, iso3=None, region=None):
+    """Get a country id by name (case-insensitive) or create it."""
+    name = re.sub(r"\s+", " ", str(name)).strip()
+    if not name:
+        return None
+    r = con.execute("SELECT id FROM countries WHERE name=? COLLATE NOCASE", (name,)).fetchone()
+    if r:
+        if region:
+            con.execute("UPDATE countries SET region=COALESCE(region,?) WHERE id=?",
+                        (region, r["id"]))
+        return r["id"]
+    return con.execute(
+        "INSERT INTO countries(name, iso3, region) VALUES (?,?,?)",
+        (name, iso3, region or "Other")).lastrowid
+
+def parse_as_of(body):
+    """Return (year, quarter) or raise ValueError; ''/None/'unknown' -> (None, None)."""
+    year, quarter = body.get("as_of_year"), body.get("as_of_quarter")
+    if year in ("", None, "unknown"):
+        return None, None
+    year = int(year)
+    quarter = int(quarter) if quarter not in ("", None) else None
+    if not (1990 <= year <= 2100) or (quarter is not None and quarter not in (1, 2, 3, 4)):
+        raise ValueError("as-of period out of range")
+    return year, quarter
+
+def parse_verification(body):
+    v = body.get("verification_level") or "public_unverified"
+    if v not in DATA_QUALITY_LEVELS:
+        raise ValueError(f"verification_level must be one of {list(DATA_QUALITY_LEVELS)}")
+    return v
+
+def insert_towers_obs(con, company_id, country_id, towers, year, quarter,
+                      verification, note=None, segment="all"):
+    con.execute(
+        """INSERT INTO observations(company_id, country_id, metric, segment, value,
+           as_of_year, as_of_quarter, source, confidence, note,
+           is_override, verification_level, last_updated)
+           VALUES (?,?,'towers',?,?,?,?,'manual entry','estimate',?,1,?,datetime('now'))""",
+        (company_id, country_id, segment, towers, year, quarter, note, verification))
+
+def api_country_observations_post(cid, body):
+    """Bulk entry for one country: who owns how many sites there."""
+    con = db()
+    try:
+        if not con.execute("SELECT 1 FROM countries WHERE id=?", (cid,)).fetchone():
+            return {"error": "country not found"}, 404
+        try:
+            year, quarter = parse_as_of(body)
+            verification = parse_verification(body)
+        except (ValueError, TypeError) as e:
+            return {"error": str(e)}, 400
+        added = 0
+        for entry in body.get("ownership", []):
+            cname = (entry.get("company") or "").strip()
+            if not cname:
+                continue
+            towers = entry.get("towers")
+            try:
+                towers = float(str(towers).replace(",", "")) if towers not in ("", None) else None
+            except ValueError:
+                return {"error": f"towers for '{cname}' must be numeric"}, 400
+            ctype = entry.get("type") or "unknown"
+            company_id = get_or_create_company(con, cname, ctype)
+            if towers is not None:
+                insert_towers_obs(con, company_id, cid, towers, year, quarter,
+                                  verification, body.get("note") or entry.get("note"))
+                added += 1
+            if ctype in ("towerco", "jv-infraco"):
+                con.execute("INSERT OR IGNORE INTO footprints VALUES (?,?,?)",
+                            (company_id, cid, "manual entry"))
+        con.commit()
+        return {"ok": True, "added": added}
+    except Exception as e:  # noqa: BLE001
+        con.rollback()
+        return {"error": str(e)}, 500
+    finally:
+        con.close()
+
+def api_mno_observations_post(mno_id, body):
+    """Bulk entry for one MNO: markets it is active in / owns towers in, and
+    the towercos it leases from."""
+    con = db()
+    try:
+        if not con.execute("SELECT 1 FROM companies WHERE id=? AND type='mno'",
+                           (mno_id,)).fetchone():
+            return {"error": "MNO not found"}, 404
+        try:
+            year, quarter = parse_as_of(body)
+            verification = parse_verification(body)
+        except (ValueError, TypeError) as e:
+            return {"error": str(e)}, 400
+        added = 0
+        for entry in body.get("markets", []):
+            cname = (entry.get("country") or "").strip()
+            if not cname:
+                continue
+            country_id = get_or_create_country(con, cname)
+            con.execute("INSERT OR IGNORE INTO mno_presences VALUES (?,?,?,?)",
+                        (mno_id, country_id, "mno", "manual entry"))
+            towers = entry.get("towers_owned", entry.get("towers"))
+            try:
+                towers = float(str(towers).replace(",", "")) if towers not in ("", None) else None
+            except ValueError:
+                return {"error": f"towers for '{cname}' must be numeric"}, 400
+            if towers is not None and towers > 0:
+                insert_towers_obs(con, mno_id, country_id, towers, year, quarter,
+                                  verification, body.get("note") or entry.get("note"))
+            added += 1
+        for towerco_name in body.get("towercos", []):
+            if not (towerco_name or "").strip():
+                continue
+            towerco_id = get_or_create_company(con, towerco_name, "towerco")
+            mno_name = con.execute("SELECT name FROM companies WHERE id=?",
+                                   (mno_id,)).fetchone()["name"]
+            con.execute("INSERT OR IGNORE INTO anchor_tenancies VALUES (?,?,?,?)",
+                        (towerco_id, mno_id, mno_name, "manual entry"))
+        con.commit()
+        con.execute("UPDATE companies SET last_updated=datetime('now') WHERE id=?", (mno_id,))
+        con.commit()
+        return {"ok": True, "markets_processed": added}
+    except Exception as e:  # noqa: BLE001
+        con.rollback()
+        return {"error": str(e)}, 500
+    finally:
+        con.close()
+
+def api_towerco_observations_post(towerco_id, body):
+    """Bulk entry for one towerco: markets (towers per country) and known tenants."""
+    con = db()
+    try:
+        if not con.execute(
+                "SELECT 1 FROM companies WHERE id=? AND type IN ('towerco','jv-infraco')",
+                (towerco_id,)).fetchone():
+            return {"error": "towerco not found"}, 404
+        try:
+            year, quarter = parse_as_of(body)
+            verification = parse_verification(body)
+        except (ValueError, TypeError) as e:
+            return {"error": str(e)}, 400
+        added = 0
+        for entry in body.get("markets", []):
+            cname = (entry.get("country") or "").strip()
+            if not cname:
+                continue
+            country_id = get_or_create_country(con, cname)
+            con.execute("INSERT OR IGNORE INTO footprints VALUES (?,?,?)",
+                        (towerco_id, country_id, "manual entry"))
+            towers = entry.get("towers")
+            try:
+                towers = float(str(towers).replace(",", "")) if towers not in ("", None) else None
+            except ValueError:
+                return {"error": f"towers for '{cname}' must be numeric"}, 400
+            if towers is not None:
+                insert_towers_obs(con, towerco_id, country_id, towers, year, quarter,
+                                  verification, body.get("note") or entry.get("note"))
+            added += 1
+        for tenant_name in body.get("tenants", []):
+            tenant_name = (tenant_name or "").strip()
+            if not tenant_name:
+                continue
+            tenant_id = get_or_create_company(con, tenant_name, "mno")
+            con.execute("INSERT OR IGNORE INTO anchor_tenancies VALUES (?,?,?,?)",
+                        (towerco_id, tenant_id, tenant_name, "manual entry"))
+        con.execute("UPDATE companies SET last_updated=datetime('now') WHERE id=?",
+                    (towerco_id,))
+        con.commit()
+        return {"ok": True, "markets_processed": added}
+    except Exception as e:  # noqa: BLE001
+        con.rollback()
+        return {"error": str(e)}, 500
+    finally:
+        con.close()
 
 def api_observations_post(body):
     metric = body.get("metric")
@@ -394,43 +642,35 @@ def api_observations_post(body):
     confidence = body.get("confidence") or "estimate"
     if confidence not in CONFIDENCES:
         return {"error": f"confidence must be one of {CONFIDENCES}"}, 400
+    verification_level = body.get("verification_level") or "public_unverified"
+    if verification_level not in DATA_QUALITY_LEVELS:
+        return {"error": f"verification_level must be one of {list(DATA_QUALITY_LEVELS)}"}, 400
 
     con = db()
     country_id = company_id = None
     if body.get("country"):
-        name = str(body["country"]).strip()
-        r = con.execute("SELECT id FROM countries WHERE name=? COLLATE NOCASE", (name,)).fetchone()
-        if r:
-            country_id = r["id"]
-        else:
-            country_id = con.execute(
-                "INSERT INTO countries(name, iso3, region) VALUES (?,?,?)",
-                (name, body.get("iso3"), body.get("region") or "Other")).lastrowid
+        country_id = get_or_create_country(con, body["country"], body.get("iso3"),
+                                           body.get("region"))
     if body.get("company"):
-        name = str(body["company"]).strip()
-        r = con.execute("SELECT id FROM companies WHERE name=? COLLATE NOCASE", (name,)).fetchone()
-        if r:
-            company_id = r["id"]
-            if body.get("company_type"):
-                con.execute("UPDATE companies SET type=? WHERE id=?",
-                            (body["company_type"], company_id))
-        else:
-            company_id = con.execute(
-                "INSERT INTO companies(name, type) VALUES (?,?)",
-                (name, body.get("company_type") or "unknown")).lastrowid
+        company_id = get_or_create_company(con, body["company"], body.get("company_type"))
+        if body.get("company_type"):
+            con.execute("UPDATE companies SET type=?, last_updated=datetime('now') WHERE id=?",
+                        (body["company_type"], company_id))
     if metric in ("towers", "market_share_pct") and (company_id is None or country_id is None):
         con.close()
         return {"error": f"metric '{metric}' needs both company and country"}, 400
-    if metric.startswith("towers_total") and country_id is None:
+    if metric == "towers_global" and company_id is None:
         con.close()
-        return {"error": "towers_total needs a country"}, 400
+        return {"error": "towers_global needs a company"}, 400
 
     cur = con.execute(
         """INSERT INTO observations(company_id, country_id, metric, segment, value,
-           value_text, as_of_year, as_of_quarter, source, confidence, note, is_override)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,1)""",
+           value_text, as_of_year, as_of_quarter, source, confidence, note,
+           is_override, verification_level, last_updated)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,datetime('now'))""",
         (company_id, country_id, metric, segment, value, value_text, year, quarter,
-         body.get("source") or "manual entry", confidence, body.get("note")))
+         body.get("source") or "manual entry", confidence, body.get("note"),
+         verification_level))
     con.commit()
     oid = cur.lastrowid
     row = con.execute("SELECT * FROM observations WHERE id=?", (oid,)).fetchone()
@@ -532,6 +772,15 @@ class Handler(BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             return self._send({"error": "invalid JSON"}, 400)
         try:
+            m = re.fullmatch(r"/api/country/(\d+)/observations", u.path)
+            if m:
+                return self._reply(api_country_observations_post(int(m.group(1)), body))
+            m = re.fullmatch(r"/api/mno/(\d+)/observations", u.path)
+            if m:
+                return self._reply(api_mno_observations_post(int(m.group(1)), body))
+            m = re.fullmatch(r"/api/towerco/(\d+)/observations", u.path)
+            if m:
+                return self._reply(api_towerco_observations_post(int(m.group(1)), body))
             m = re.fullmatch(r"/api/observations/(\d+)/delete", u.path)
             if m:
                 return self._reply(api_observation_delete(int(m.group(1))))
