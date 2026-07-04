@@ -1,13 +1,16 @@
 # Tower Explorer ingest layer
 
 Common infrastructure for source adapters, per the POC brief
-(`Tower_Explorer_POC_Ingest_Brief.docx`, sections 4 and 6). This is session 1
-of the brief: the shared layer plus a stub adapter. The real adapters (ANFR,
-FCC ASR, OpenCelliD) are sessions 2–4 and are not built yet.
+(`Tower_Explorer_POC_Ingest_Brief.docx`, sections 4 and 6). Sessions delivered so
+far: the shared layer plus a stub adapter (session 1) and the ANFR France
+adapter (session 2 — see `anfr/config.yaml` for what was verified against
+the live source and `docs/session_02_handover.md`). FCC ASR and OpenCelliD
+are sessions 3–4 and are not built yet.
 
 ## Usage
 
 ```bash
+python -m ingest anfr --all     --date 2026-07-04   # full ANFR run (downloads ~65 MB)
 python -m ingest stub fetch     --date 2026-07-01   # single stage
 python -m ingest stub validate  --date 2026-07-01
 python -m ingest stub normalise --date 2026-07-01
