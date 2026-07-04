@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS companies (
   type TEXT NOT NULL DEFAULT 'unknown',          -- towerco | mno | jv-infraco | broadcaster | government | aggregate | unknown
   business_model TEXT,                           -- league table: Operator owned | Pureplay independent | JV Infraco
   owners TEXT,
-  notes TEXT
+  notes TEXT,
+  verification_level TEXT DEFAULT 'public_unverified',  -- public_gsma_verified | public_trusted | public_unverified | private_gsma_verified | estimated
+  last_updated TEXT
 );
 
 CREATE TABLE IF NOT EXISTS countries (
@@ -36,7 +38,7 @@ CREATE TABLE IF NOT EXISTS observations (
   id INTEGER PRIMARY KEY,
   company_id INTEGER REFERENCES companies(id),   -- NULL for country-level metrics
   country_id INTEGER REFERENCES countries(id),   -- NULL for global (league) tower counts
-  metric TEXT NOT NULL,                          -- towers | towers_total | towers_global | market_share_pct | population | subscribers | sims_per_tower | sim_penetration_pct
+  metric TEXT NOT NULL,                          -- towers | towers_global | market_share_pct
   segment TEXT NOT NULL DEFAULT 'all',           -- all | ground | rooftop | alternative | broadcast
   value REAL,
   value_text TEXT,
@@ -46,6 +48,8 @@ CREATE TABLE IF NOT EXISTS observations (
   confidence TEXT DEFAULT 'reported',            -- reported | inferred | approx | estimate | unknown
   note TEXT,
   is_override INTEGER NOT NULL DEFAULT 0,        -- 1 = entered/overridden via the data-entry page
+  verification_level TEXT DEFAULT 'public_unverified',  -- public_gsma_verified | public_trusted | public_unverified | private_gsma_verified | estimated
+  last_updated TEXT,
   created_at TEXT DEFAULT (datetime('now')),
   deleted INTEGER NOT NULL DEFAULT 0
 );
@@ -124,8 +128,19 @@ def main():
     comp_ids = {}   # norm name -> id
     comp_display = {}
 
-    def company_id(name, ctype=None, business_model=None, owners=None):
+    def norm_model(bm):
+        """Normalise business-model casing so 'JV Infraco'/'JV infraco' don't duplicate."""
+        if not bm:
+            return None
+        bm = re.sub(r"\s+", " ", str(bm)).strip()
+        if "jv" in bm.lower():
+            return "JV Infraco"
+        return bm[:1].upper() + bm[1:]
+
+    def company_id(name, ctype=None, business_model=None, owners=None,
+                   verification_level=None):
         name = re.sub(r"\s+", " ", str(name)).strip()
+        business_model = norm_model(business_model)
         n = norm(name)
         if not n:
             return None
@@ -140,8 +155,10 @@ def main():
                 con.execute("UPDATE companies SET owners=COALESCE(owners,?) WHERE id=?", (owners, cid))
             return cid
         cur = con.execute(
-            "INSERT INTO companies(name, type, business_model, owners) VALUES (?,?,?,?)",
-            (name, ctype or "unknown", business_model, owners))
+            """INSERT INTO companies(name, type, business_model, owners,
+               verification_level, last_updated) VALUES (?,?,?,?,?,datetime('now'))""",
+            (name, ctype or "unknown", business_model, owners,
+             verification_level or "public_unverified"))
         comp_ids[n] = cur.lastrowid
         comp_display[n] = name
         return cur.lastrowid
@@ -176,8 +193,9 @@ def main():
              l["as_of_year"], l["as_of_quarter"], l["as_of_raw"], "League Table.xlsx"))
         con.execute(
             """INSERT INTO observations(company_id, country_id, metric, value,
-               as_of_year, as_of_quarter, source, confidence)
-               VALUES (?,NULL,'towers_global',?,?,?,?,?)""",
+               as_of_year, as_of_quarter, source, confidence,
+               verification_level, last_updated)
+               VALUES (?,NULL,'towers_global',?,?,?,?,?,'public_unverified',datetime('now'))""",
             (cid, l["towers"], l["as_of_year"], l["as_of_quarter"],
              "League Table.xlsx",
              "reported" if l["as_of_year"] else "unknown"))
@@ -186,41 +204,44 @@ def main():
             con.execute("INSERT OR IGNORE INTO footprints VALUES (?,?,?)",
                         (cid, kid, "League Table.xlsx"))
 
-    # guide country-level stats
-    def pct(s):
-        if not s:
-            return None
-        m = re.search(r"([\d\.]+)", s)
-        return float(m.group(1)) if m else None
-    for c in ds["countries"]:
-        kid = country_ids[c["name"]]
-        rows = [
-            ("towers_total", c["towers_total"], c["towers_total_raw"]),
-            ("sims_per_tower", c["sims_per_tower"], None),
-            ("sim_penetration_pct", pct(c["sim_penetration"]), c["sim_penetration"]),
-            ("population", None, c["population_raw"]),
-            ("subscribers", None, c["subscribers_raw"]),
-        ]
-        for metric, val, vtext in rows:
-            if val is None and not vtext:
-                continue
-            con.execute(
-                """INSERT INTO observations(country_id, metric, value, value_text,
-                   as_of_year, as_of_quarter, source)
-                   VALUES (?,?,?,?,?,?,?)""",
-                (kid, metric, val, vtext, c["as_of_year"], c["as_of_quarter"], c["source"]))
+    # NOTE: SIM/population/subscriber stats and the separate towers_total metric
+    # were removed in v2 — country totals are now the sum of tracked owners.
 
     # holdings (pie extractions)
+    companies_with_holdings = set()
     for h in ds["holdings"]:
         cid = company_id(h["company"], h["company_type"])
         kid = country_ids[h["country"]]
+        if h["metric"] == "towers":
+            companies_with_holdings.add(cid)
         con.execute(
             """INSERT INTO observations(company_id, country_id, metric, segment,
-               value, as_of_year, as_of_quarter, source, confidence, note)
-               VALUES (?,?,?,?,?,?,?,?,?,?)""",
+               value, as_of_year, as_of_quarter, source, confidence, note,
+               verification_level, last_updated)
+               VALUES (?,?,?,?,?,?,?,?,?,?,'public_unverified',datetime('now'))""",
             (cid, kid, h["metric"], h["segment"], h["value"],
              h["as_of_year"], h["as_of_quarter"], h["source"],
              h["confidence"], h.get("note")))
+
+    # Single-country league companies with no guide holdings: materialise their
+    # global count as that country's holding, so e.g. China Tower appears in
+    # China and Crown Castle in the United States on country views and the map.
+    for l in ds["league"]:
+        if len(l["footprint"]) != 1 or l["country_count"] not in (1, None):
+            continue
+        cid = comp_ids.get(norm(l["company"]))
+        if cid is None or cid in companies_with_holdings:
+            continue
+        kid = country_id(l["footprint"][0])
+        con.execute(
+            """INSERT INTO observations(company_id, country_id, metric, segment,
+               value, as_of_year, as_of_quarter, source, confidence, note,
+               verification_level, last_updated)
+               VALUES (?,?,'towers','all',?,?,?,?,?,?,'public_unverified',datetime('now'))""",
+            (cid, kid, l["towers"], l["as_of_year"], l["as_of_quarter"],
+             "League Table.xlsx (single-country footprint)",
+             "reported" if l["as_of_year"] else "unknown",
+             "Derived from the league table: company's whole footprint is this country"))
 
     # MNO presences
     for p in ds["mno_presences"]:
@@ -241,18 +262,24 @@ def main():
                 "INSERT OR IGNORE INTO anchor_tenancies VALUES (?,?,?,?)",
                 (tid, ten_id, tenant, "League Table.xlsx (Customer table)"))
 
-    # re-apply preserved user overrides
+    # re-apply preserved user overrides (skipping metrics removed in v2)
+    REMOVED_METRICS = {"towers_total", "sims_per_tower", "sim_penetration_pct",
+                       "population", "subscribers"}
     for o in saved_overrides:
+        if o["metric"] in REMOVED_METRICS:
+            continue
         cid = company_id(o["company"]) if o["company"] else None
         kid = country_id(o["country"]) if o["country"] else None
         con.execute(
             """INSERT INTO observations(company_id, country_id, metric, segment, value,
                value_text, as_of_year, as_of_quarter, source, confidence, note,
-               is_override, created_at, deleted)
-               VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?)""",
+               is_override, created_at, deleted, verification_level, last_updated)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?,?,?)""",
             (cid, kid, o["metric"], o["segment"], o["value"], o["value_text"],
              o["as_of_year"], o["as_of_quarter"], o["source"], o["confidence"],
-             o["note"], o["created_at"], o["deleted"]))
+             o["note"], o["created_at"], o["deleted"],
+             o.get("verification_level") or "public_unverified",
+             o.get("last_updated")))
 
     con.commit()
     n_obs = con.execute("SELECT COUNT(*) FROM observations").fetchone()[0]
