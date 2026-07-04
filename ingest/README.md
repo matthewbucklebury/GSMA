@@ -6,7 +6,10 @@ delivered: the stub (session 1), ANFR France (session 2), FCC ASR United
 States (session 3) and OpenCelliD market aggregates (session 4) — see each
 adapter's `config.yaml` for what was verified against the live source, and
 `docs/session_0N_handover.md` for divergences and open items. Session 5
-(Explorer surfacing of the three layers) remains.
+(Explorer surfacing) is also delivered: the app's "Site registers (POC)" tab
+renders the three layers side by side with coverage status and caveats, via
+read-only /api/ingest/* endpoints over data/ingest.db (now committed so the
+live demo works).
 
 ## Usage
 

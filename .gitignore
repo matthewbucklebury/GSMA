@@ -7,5 +7,4 @@ data/raw/
 data/normalised/
 data/quarantine/
 data/run_logs/
-data/ingest.db
 .pytest_cache/

@@ -30,6 +30,7 @@
   <button data-tab="map">Map</button>
   <button data-tab="explore">Explore &amp; compare</button>
   <button data-tab="entry">Data entry</button>
+  <button data-tab="registers">Site registers (POC)</button>
   <button data-tab="about">About the data</button>
 </nav>
 <main>
@@ -182,6 +183,28 @@
     <datalist id="dl-companies"></datalist>
     <h3 style="margin-top:26px">Manual entries &amp; overrides</h3>
     <div style="overflow-x:auto"><table class="data" id="override-table"></table></div>
+  </section>
+
+  <section id="tab-registers" hidden>
+    <p class="note-box">Structure-level and market-level layers ingested from public registers
+      (POC). Sources are held side by side and <b>never reconciled or merged</b>: each layer keeps
+      its own identifiers, coverage claims and caveats. A market a source does not cover shows an
+      explicit <span class="pill">not covered</span> rather than an ambiguous zero.</p>
+    <div id="reg-sources" class="grid3" style="margin-bottom:16px"></div>
+    <div class="controls">
+      <label>Market
+        <input type="text" id="reg-country" list="dl-iso2" size="24" placeholder="ISO code or name…" value="DE">
+      </label>
+      <span class="chips" id="reg-quick">
+        <span class="chip link" data-iso="FR">France</span>
+        <span class="chip link" data-iso="US">United States</span>
+        <span class="chip link" data-iso="DE">Germany</span>
+        <span class="chip link" data-iso="KE">Kenya</span>
+      </span>
+    </div>
+    <datalist id="dl-iso2"></datalist>
+    <div id="reg-coverage" class="grid3" style="margin-bottom:16px"></div>
+    <div id="reg-detail"></div>
   </section>
 
   <section id="tab-about" hidden>
