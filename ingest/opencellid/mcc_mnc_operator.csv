@@ -1,0 +1,2098 @@
+# Static lookup committed per brief s5.3/s6. Provenance: ITU-T E.212 allocations
+# via the public mcc-mnc-table compilation (github.com/musalbas/mcc-mnc-table,
+# scraped from mcc-mnc.com), fetched 2026-07-04. Factual allocation data.
+# Where several networks share an MCC+MNC (MVNO aggregation codes), names are
+# joined with ' / ' (first three kept).
+mcc,mnc,operator_name
+202,1,Cosmote
+202,2,Cosmote
+202,3,OTE
+202,4,OSE
+202,5,Vodafone
+202,7,AMD Telecom
+202,9,Wind
+202,10,Wind
+202,12,Yuboto
+202,14,CyTa Mobile
+202,15,BWS
+202,16,Inter Telecom
+202,299,AMD Telecom / Apifon / Interconnect
+202,999,Fix Line
+204,0,Intovoice
+204,2,T-Mobile / Tele2
+204,3,Voiceworks Mobile
+204,4,Vodafone
+204,5,ElephantTalk
+204,6,Vectone Mobile
+204,7,Move / Teleena
+204,8,KPN
+204,9,Lycamobile
+204,10,KPN
+204,12,KPN / KPN/Telfort
+204,14,6GMOBILE BV
+204,15,Ziggo
+204,16,T-Mobile
+204,17,Intercity Mobile Communications BV
+204,18,Ziggo Services
+204,20,T-Mobile / T-mobile/former Orange
+204,21,ProRail
+204,23,KORE
+204,24,Private Mobility
+204,26,SpeakUp
+204,27,L-mobi
+204,28,Lancelot
+204,29,Tismi
+204,30,ASPIDER Solutions
+204,33,Truphone
+204,63,MessageBird
+204,68,Unify Mobile
+204,69,KPN
+204,98,Lancelot / T-Mobile
+204,299,88 mobile / AGMS / Belcentrale
+204,999,Fix Line
+206,0,Proximus
+206,1,Proximus
+206,2,Infrabel
+206,4,Proximus
+206,5,Base / Telenet Mobile
+206,6,Lycamobile
+206,7,Vectone Mobile
+206,8,VOOmobile
+206,10,Mobistar / Orange
+206,20,Base
+206,23,Dust Mobile
+206,25,Dense Air
+206,28,BICS
+206,30,Mobile Vikings
+206,33,Ericsson
+206,34,onoff
+206,99,Lancelot
+206,299,FEBO / GianCom / interactive digital media / IDM
+206,999,Fix Line
+208,0,Tel/Tel
+208,1,Orange
+208,2,Orange
+208,3,MobiquiThings
+208,4,Axialys
+208,5,GlobalStar
+208,6,GlobalStar
+208,7,GlobalStar
+208,8,SFR
+208,9,SFR
+208,10,SFR
+208,11,SFR
+208,12,Truphone
+208,13,SFR
+208,14,Free Mobile
+208,15,Free Mobile
+208,16,Free Mobile
+208,17,Legos
+208,20,Bouygues Telecom
+208,21,Bouygues Telecom
+208,22,Transatel
+208,23,Hub One
+208,24,MobiquiThings
+208,25,Lycamobile
+208,26,NRJ
+208,27,Coriolis
+208,28,Airmob
+208,29,Orange
+208,30,Syma Mobile
+208,31,Vectone Mobile
+208,32,Orange
+208,34,Cellhire
+208,35,Free Mobile
+208,36,Free Mobile
+208,37,IP Directions
+208,38,Lebara
+208,39,Networth Telecom
+208,88,Bouygues Telecom
+208,89,Hub One
+208,91,Orange
+208,92,IP Directions
+208,94,Halys
+208,299,Add-On Multimedia / Afone Mobile / Alphalink
+208,999,Fix Line
+212,1,Monaco Telecom
+212,10,Monaco Telecom
+213,3,Andorra Telecom / Mobiland
+214,1,Vodafone
+214,2,Alta Tecnologia en Comunicacions
+214,3,Orange
+214,4,Yoigo
+214,5,Movistar
+214,6,Vodafone
+214,7,Movistar
+214,8,Euskaltel Movil
+214,9,Orange
+214,10,Zinnia
+214,11,Orange
+214,12,Venus Movil
+214,14,Avatel Movil
+214,15,BT Espana  SAU
+214,16,mobil R
+214,17,mobil R / R Cable y Telec. Galicia SA
+214,18,Cableuropa SAU (ONO)
+214,19,Simyo
+214,20,fonYou Wireless SL
+214,21,Jazz Telecom SAU / Orange
+214,22,Digi.Mobil
+214,23,Yoigo
+214,25,Lycamobile
+214,26,Lleida
+214,27,Truphone
+214,29,Yoigo
+214,32,ION Mobile
+214,33,Yoigo
+214,34,ION MOBILE
+214,35,SUMA movil
+214,36,Alai
+214,37,Vodafone
+214,38,Movistar
+214,299,ACN / Adamo Telecom / Aurea
+214,999,Fix Line
+216,1,Telenor
+216,2,MVM NET
+216,3,Digi
+216,30,Telekom
+216,70,Vodafone
+216,71,UPC Magyarorszag Kft. / Vodafone
+216,299,Antenna / Invitech / Mobil4
+216,999,Fix line
+218,3,Eronet
+218,5,m:tel
+218,90,BH Mobile
+219,1,T-Mobile
+219,2,Telemach / Tele2
+219,10,A1 / VIP
+219,12,TELE FOCUS
+219,999,Fix Line
+220,1,Telenor
+220,2,Telenor
+220,3,MTS
+220,5,VIP
+220,11,Globaltel
+220,20,VIP
+220,299,Failed Calls
+221,1,Vala
+221,2,IPKO
+221,3,MTS
+221,6,Dardafon.Net LLC
+221,7,D3 mobile
+221,299,MTS
+222,0,Premium Numbers / VOIP Line
+222,1,TIM
+222,2,Elsacom
+222,6,Vodafone
+222,7,Noverca Italia
+222,8,Fastweb
+222,10,Vodafone
+222,30,RFI
+222,33,Poste Mobile
+222,34,BT mobile
+222,35,Lycamobile
+222,36,Digi
+222,37,WindTre / Hi3G
+222,39,SMS.it / LINK Mobility
+222,40,Agile Telecom
+222,42,Enel
+222,43,Telecom Italia Mobile
+222,44,Mundio
+222,48,Telecom Italia Mobile
+222,49,Vianova Mobile
+222,50,Iliad
+222,51,ho.
+222,53,CoopVoce
+222,54,Plintron
+222,56,spusu
+222,58,rdcom
+222,77,IPSE 2000
+222,88,WindTre / WIND
+222,99,WindTre / Hi3G
+222,299,A-Tono / Esendex / Compatel
+222,999,Fix Line
+225,299,Failed Calls
+226,1,Vodafone
+226,2,Romtelecom SA / Telekom
+226,3,Telekom
+226,4,Telekom Romania
+226,5,Digi Mobil
+226,6,Telekom Romania
+226,10,Orange
+226,11,Enigma Systems
+226,16,Lycamobile
+226,299,Iristel
+228,1,Swisscom
+228,2,Sunrise
+228,3,Salt Mobile
+228,5,Comfone
+228,6,SBB
+228,7,Sunrise
+228,8,Sunrise
+228,9,Comfone
+228,12,Sunrise
+228,51,relario
+228,52,Mundio Mobile AG
+228,53,Sunrise / upc cablecom GmbH
+228,54,Lycamobile
+228,58,Beeone
+228,59,Vectone Mobile
+228,60,Sunrise
+228,62,Telecom26
+228,65,Nexphone
+228,66,Inovia
+228,69,MTEL
+228,70,Tismi
+228,999,Fix Line
+230,1,T-Mobile
+230,2,O2
+230,3,Vodafone
+230,4,Nordic Telecom
+230,5,PODA
+230,7,T-Mobile
+230,8,Compatel
+230,9,Uniphone
+230,98,SZDC
+230,99,Vodafone
+230,299,+4U Mobile / 3ton / CEZ
+230,999,Fix Line
+231,1,Orange
+231,2,Telekom
+231,3,Swan / 4ka
+231,4,Telekom
+231,5,Orange
+231,6,O2
+231,7,Orange
+231,8,Uniphone
+231,15,Orange
+231,50,Telekom
+231,99,ZSR
+231,299,Vonage
+232,1,A1 Telekom
+232,2,A1 Telekom
+232,3,T-Mobile / Magenta
+232,4,T-Mobile / Magenta
+232,5,Hutchinson Drei
+232,6,Hutchison Drei / 3
+232,7,T-Mobile / Magenta
+232,8,A1 Telekom
+232,9,A1 Telekom
+232,10,Hutchinson Drei
+232,11,A1 Telekom
+232,12,A1 Telekom
+232,13,T-Mobile / Magenta
+232,14,Hutchinson Drei
+232,15,T-Mobile / Magenta
+232,16,Hutchinson Drei
+232,17,Mass Response Service
+232,18,smartspace
+232,19,Hutchinson Drei
+232,20,Mtel
+232,22,Plintron
+232,23,T-Mobile / Magenta
+232,24,Smartel Services
+232,25,Holding Graz
+232,26,LIWEST Mobil
+232,27,Tismi
+232,91,OBB Infrastruktur
+232,299,ArgoNET / DIALOG telekom / Digital Privacy
+232,999,Fix Line
+234,0,BT Group
+234,1,Vectone Mobile
+234,2,O2
+234,3,Jersey Airtel
+234,4,FMS Solutions
+234,7,Vodafone
+234,8,BT OnePhone
+234,9,Tismi
+234,10,O2
+234,11,O2
+234,12,Network Rail
+234,13,Network Rail
+234,14,LINK Mobility
+234,15,Vodafone
+234,16,Talk Talk
+234,17,FlexTel
+234,18,Cloud9
+234,19,TeleWare
+234,20,3
+234,22,Telesign Mobile
+234,23,Icron Network
+234,24,Greenfone
+234,25,Truphone
+234,26,Lycamobile
+234,27,Tata Communications Ltd / Vodafone
+234,28,Marathon Telecom
+234,29,aql
+234,30,T-Mobile
+234,31,T-Mobile
+234,32,T-Mobile
+234,33,Orange
+234,34,Orange
+234,35,JSC Ingenicum
+234,36,Sure Isle of Man
+234,37,Synectiv
+234,38,Virgin Mobile
+234,39,Gamma Mobile
+234,40,spusu
+234,50,JT Mobile
+234,51,now broadband
+234,55,Sure Guernsey
+234,56,NCSC
+234,57,Sky
+234,58,Manx Telecom Mobile
+234,71,Home Office
+234,72,Hanhaa Mobile
+234,74,Pareteum
+234,75,Mass Response Service GmbH
+234,76,BT Group
+234,77,Vodafone
+234,78,Airwave
+234,89,Vodafone
+234,91,Vodafone
+234,92,Vodafone
+234,94,3
+234,95,Network Rail
+234,99,08Direct / 24Seven / ACE Call
+234,998,Virgin Mobile
+234,999,Fix Line
+235,2,Everyth. Ev.wh.
+238,1,TDC
+238,2,Telenor
+238,3,Syniverse Technologies
+238,4,Nexcon.io
+238,6,3
+238,7,Mundio Mobile
+238,8,Voxbone / Bandwidth
+238,10,TDC
+238,12,Lycamobile
+238,13,Compatel
+238,14,Monty Mobile
+238,15,Net 1
+238,16,Tismi
+238,17,Gotanet
+238,20,Telia
+238,23,Banedanmark
+238,25,Viahub
+238,28,LINK Mobility
+238,30,Pareteum / Telia
+238,42,Greenwave
+238,73,Onomondo
+238,77,Telenor
+238,88,Cobira
+238,96,Telia
+238,999,Fix Line
+240,1,Telia
+240,2,3
+240,3,Net 1
+240,4,Telenor
+240,5,Tele2
+240,6,Telenor
+240,7,Tele2
+240,8,Telenor
+240,9,Com4
+240,10,Spring Mobil AB
+240,11,Com Hem
+240,12,Lycamobile
+240,13,A3
+240,14,Tele2
+240,15,Sierra Wireless Sweden AB
+240,16,42 Telecom AB
+240,17,Gotanet
+240,18,Messit / Minicall
+240,19,Vectone Mobile
+240,20,Sierra Wireless
+240,21,Trafikverket
+240,22,EUtel
+240,23,Infobip
+240,24,Telenor
+240,25,Monty Mobile
+240,26,Twilio
+240,27,Globetouch
+240,28,LINK Mobility
+240,29,MI Carrier Services
+240,30,NextGen Mobile Ltd (CardBoardFish)
+240,31,Rebtel
+240,32,Compatel
+240,33,Mobile Arts
+240,35,42 Telecom
+240,36,interactive digital media / IDM
+240,37,Sinch
+240,38,Voxbone / Bandwidth
+240,39,Primlight
+240,40,Netmore
+240,42,Telenor Connexion
+240,43,MobiWeb
+240,44,Telenabler
+240,45,Spirius
+240,46,Viahub
+240,47,Viatel
+240,48,Tismi
+240,63,Fink Telecom
+240,999,Fix Line
+242,1,Telenor
+242,2,Telia / NetCom
+242,3,Teletopia
+242,4,Tele2
+242,5,Network Norway / Altibox Mobil
+242,6,ICE
+242,7,Ventelo AS
+242,8,TDC Mobil A/S / Telia / NetCom
+242,9,Com4
+242,10,Nkom
+242,12,Telenor
+242,14,ICE
+242,15,eRate
+242,16,Iristel
+242,17,Ventelo AS
+242,20,BANE NOR
+242,21,BANE NOR
+242,22,Altibox Mobil
+242,23,Lycamobile
+242,299,bigblu / Chilimobil / GlobalConnect
+242,999,Fix Line
+244,3,DNA
+244,4,DNA
+244,5,Elisa
+244,6,Elisa
+244,7,NSN
+244,8,NSN
+244,9,NSN
+244,10,TDC Oy Finland
+244,11,Viahub
+244,12,DNA
+244,13,DNA
+244,14,Alcom
+244,15,Telit
+244,21,Elisa
+244,24,Nord Connect
+244,26,Compatel
+244,32,Voxbone / Bandwidth
+244,33,VIRVE
+244,35,Ukko Mobile
+244,36,Telia
+244,37,Tismi
+244,38,NSN
+244,39,NSN
+244,40,NSN
+244,41,NSN
+244,42,Viahub
+244,43,Telavox
+244,45,VIRVE
+244,46,VIRVE
+244,47,VIRVE
+244,82,interactive digital media / IDM
+244,91,Telia
+244,299,Benemen / Cuuma / interactive digital media / IDM
+246,1,Telia
+246,2,Bite
+246,3,Tele2
+246,5,LTG
+246,6,Mediafon
+246,299,SkyCall / Teletel
+247,1,LMT
+247,2,Tele2
+247,3,TRIATEL
+247,4,Tet
+247,5,Bite
+247,6,SIA Rigatta
+247,7,SIA Master Telecom
+247,8,VENTA Mobile
+247,9,XOmobile
+247,10,LMT
+247,299,Premium Numbers
+248,1,Telia
+248,2,Elisa
+248,3,Tele2
+248,4,TravelSim
+248,13,Telia
+250,1,MTS
+250,2,Megafon
+250,3,NCC
+250,4,Sibchallenge
+250,5,Tele2/ECC/Volgogr.
+250,7,ZAO SMARTS
+250,9,Skylink
+250,10,DTC/Don Telecom
+250,11,Yota
+250,12,Tele2
+250,13,Kuban GSM
+250,15,ZAO SMARTS
+250,16,NTC
+250,17,UralTel
+250,19,OJSC Altaysvyaz
+250,20,Tele2 / Tele2/ECC/Volgogr.
+250,28,BeeLine/VimpelCom
+250,32,Win Mobile
+250,33,SEVTELECOM
+250,34,Krymtelecom
+250,35,Motiv
+250,39,UralTel
+250,42,MTT
+250,44,StavTelesot
+250,48,Global Telecom
+250,54,Letai Mobile
+250,55,Glonass
+250,57,Matrix Mobile
+250,60,Volna Mobile
+250,77,Glonass
+250,92,Printelefone
+250,93,Telecom XXL
+250,99,Beeline / BeeLine/VimpelCom
+250,299,A-Mobile / Antares / Aquafon
+250,999,Fix Line
+255,1,Vodafone
+255,2,Kyivstar
+255,3,Kyivstar / KyivStar
+255,4,IT
+255,5,Golden Telecom
+255,6,lifecell
+255,7,3Mob
+255,21,PEOPLEnet
+255,39,Golden Telecom
+255,50,Vodafone
+255,67,KyivStar
+255,68,Kyivstar
+255,99,Phoenix
+257,1,MDC/Velcom / velcom A1
+257,2,MTS
+257,3,BelCel JV
+257,4,life:)
+259,1,Orange
+259,2,Moldcell
+259,3,Unite
+259,4,Eventis Mobile
+259,5,Unite
+259,99,Unite
+260,1,Plus
+260,2,T-Mobile
+260,3,Orange
+260,4,Aero2
+260,5,Orange
+260,6,Play
+260,7,Netia
+260,8,e-Telko
+260,9,Lycamobile
+260,10,T-Mobile
+260,11,NORDISK Polska / Plus
+260,12,Cyfrowy Polsat
+260,13,Move
+260,14,Move / Telco Leaders
+260,15,Aero2
+260,16,Aero2 / Mobyland
+260,17,Aero2 / Aero2 SP.
+260,18,AMD Telecom
+260,19,NetBalt
+260,20,Tismi
+260,22,Twilio
+260,27,Ntel Solutions
+260,32,Compatel
+260,34,T-Mobile
+260,35,PKP
+260,36,Mundio Mobile Sp. z o.o.
+260,38,CallFreedom Sp. z o.o.
+260,39,Voxbone / Bandwidth
+260,41,EZ Mobile
+260,42,MobiWeb
+260,45,Virgin Mobile
+260,47,SMSHIGHWAY
+260,48,Agile Telecom
+260,49,Messagebird
+260,90,Polska Spolka Gazownictwa
+260,97,Politechnika Lodzka Uczelniane
+260,98,Play
+260,299,3S / Benemen / BSG
+260,999,Fix Line
+262,1,Telekom / T-mobile
+262,2,Vodafone
+262,3,Telefonica / E-Plus
+262,4,Vodafone
+262,5,Telefonica / E-Plus
+262,6,Telekom / T-mobile
+262,7,Telefonica / O2
+262,8,Telefonica / O2
+262,9,Vodafone
+262,10,DB Netz
+262,11,Telefonica / O2
+262,12,Telefonica / E-Plus
+262,13,Bundesamt für Ausrüstung Informationstechnik und Nutzung der Bundeswehr
+262,14,Lebara
+262,16,Telefonica / O2
+262,17,Telefonica / E-Plus
+262,20,Telefonica / E-Plus
+262,21,Multiconnect
+262,22,sipgate
+262,23,1&1
+262,24,TelcoVillage
+262,33,sipgate
+262,42,Vodafone
+262,43,Lycamobile
+262,77,Telefonica / E-Plus
+262,78,Telekom / T-mobile
+262,299,1&1 / Argon Networks / Multiconnect
+262,999,Fix Line
+266,1,Gibtel
+266,6,CTS Mobile
+266,9,eazi telecom
+266,299,GibFibreSpeed
+266,999,Fix Line
+268,1,Vodafone
+268,3,NOS
+268,4,Lycamobile
+268,6,MEO
+268,7,NOS
+268,8,MEO
+268,80,MEO
+268,91,Vodafone
+268,93,NOS
+268,299,NOWO / Oni
+268,999,Fix Line
+270,1,Post
+270,5,Luxembourg Online
+270,10,Blue Communications
+270,77,Tango
+270,81,e-LUX Mobile
+270,99,Orange
+270,299,Bouygues Telecom / Eltrona / MTX Connect
+270,999,Fix Line
+272,1,Vodafone
+272,2,3
+272,3,Meteor / eir mobile
+272,4,Access Telecom Ltd.
+272,5,3
+272,7,Meteor / eir mobile
+272,8,Meteor / eir mobile
+272,11,Tesco Mobile
+272,13,Lycamobile
+272,15,Virgin Media
+272,17,3
+274,1,Siminn
+274,2,Vodafone
+274,3,Vodafone
+274,4,Viking Wireless
+274,5,Vodafone
+274,7,IceCell
+274,8,Siminn
+274,9,Amitelo
+274,11,NOVA
+274,12,Vodafone
+274,16,Tismi
+274,31,Siminn
+276,1,One / AMC
+276,2,Vodafone
+276,3,ALBtelecom Mobile / Eagle
+276,4,PLUS Communication Sh.a
+278,1,Vodafone
+278,21,GO Mobile
+278,30,GO Mobile
+278,77,Melita
+278,999,Fix Line
+280,1,Cytamobile-Vodafone
+280,2,Cytamobile-Vodafone
+280,10,Epic / MTN
+280,20,PrimeTel
+280,22,Cablenet / Lemontel
+280,999,Fix Line
+282,1,Geocell
+282,2,MagtiCom
+282,3,Iberiatel Ltd.
+282,4,Beeline
+282,5,Silknet
+282,7,GlobalCell
+282,8,Silknet
+282,10,Premium Net
+282,11,Mobilive
+282,12,Telecom 1
+282,22,MyPhone
+283,1,Beeline
+283,4,KT
+283,5,Viva-MTS
+283,10,Orange
+284,1,A1
+284,3,Vivacom
+284,5,Telenor
+284,6,Vivacom
+284,11,Bulsatcom
+284,13,T.com
+286,1,Turkcell
+286,2,Vodafone
+286,3,Avea
+286,4,Avea
+286,299,Asistan Telekom / BasakCell / Compatel
+286,999,Fix Line
+288,1,Faroese Telecom
+288,2,Hey / Kall
+288,3,Tosa
+289,67,Aquafon
+289,68,A-Mobile
+289,88,A-Mobile
+290,1,Tele Greenland
+292,1,Prima
+292,299,TeleneT
+293,10,Slovenske zeleznice
+293,20,Compatel
+293,40,A1 / Si.mobil
+293,41,Mobitel
+293,64,T-2
+293,70,Telemach / Tusmobil
+293,86,Elektro Gorenjska
+293,299,HOT mobil / Me2 / Novatel
+293,999,Fix Line
+294,1,Telekom
+294,2,A1
+294,3,A1 / VIP Mobile
+294,4,Lycamobile
+294,11,Mobik
+294,75,A1
+294,299,Failed Calls / LATRON / Telekabel
+295,1,FL GSM
+295,2,7acht
+295,5,FL1
+295,6,CUBIC
+295,7,First Mobile AG
+295,9,EMnify
+295,77,Alpmobile/Tele2
+295,299,Datamobile / Dimoco / SORACOM
+297,1,Telenor
+297,2,Telekom / T-mobile
+297,3,Mtel
+302,220,Telus Mobility
+302,320,mobilicity
+302,360,Clearnet
+302,361,Clearnet
+302,370,FIDO (Rogers AT&T/ Microcell)
+302,380,DMTS Mobility
+302,490,WIND
+302,500,Videotron
+302,610,Bell Mobility
+302,630,Bell Aliant
+302,640,Latitude Wireless
+302,651,Bell Mobility
+302,652,BC Tel Mobility
+302,653,Telus Mobility
+302,654,Sask Tel Mobility
+302,655,MTS Mobility
+302,656,Tbay Mobility
+302,657,Quebectel Mobility
+302,660,MTS Mobility
+302,670,CityWest Mobility
+302,680,Sask Tel Mobility
+302,701,NB Tel Mobility
+302,702,MT&T Mobility
+302,703,New Tel Mobility
+302,710,Globalstar Canada
+302,720,Rogers AT&T Wireless
+302,760,Public Mobile
+302,780,Sask Tel Mobility
+308,1,Ameris
+310,3,Unknown
+310,4,Verizon Wireless
+310,6,Consolidated Telcom
+310,10,Verizon Wireless
+310,11,Northstar
+310,12,Verizon Wireless
+310,13,Verizon Wireless
+310,14,Testing
+310,15,Unknown
+310,16,Leap Wireless International Inc.
+310,20,Union Telephone Co.
+310,23,Unknown
+310,24,Unknown
+310,25,Unknown
+310,26,Unknown
+310,31,T-Mobile
+310,32,IT&E OverSeas
+310,33,Guam Teleph. Auth.
+310,34,Nevada Wireless LLC
+310,38,USA 3650 AT&T
+310,40,Matanuska Tel. Assn. Inc.
+310,46,SIMMETRY
+310,60,Consolidated Telcom
+310,70,AT&T Wireless Inc.
+310,90,Edge Wireless LLC
+310,100,Plateau Telecommunications Inc.
+310,120,Sprint Spectrum
+310,130,North Carolina RSA 3 Cellular Tel. Co.
+310,140,GTA Wireless
+310,150,AT&T Wireless Inc.
+310,160,T-Mobile
+310,170,AT&T Wireless Inc.
+310,180,Cingular Wireless
+310,190,Unknown
+310,200,T-Mobile
+310,210,T-Mobile
+310,220,T-Mobile
+310,230,T-Mobile
+310,240,T-Mobile
+310,250,T-Mobile
+310,260,T-Mobile
+310,270,T-Mobile
+310,280,T-Mobile
+310,290,NEP Cellcorp Inc.
+310,300,T-Mobile
+310,310,T-Mobile
+310,320,Smith Bagley Inc.
+310,330,T-Mobile
+310,340,Westlink Communications LLC
+310,350,Mohave Cellular LP
+310,360,Cellular Network Partnership LLC
+310,370,Docomo
+310,380,AT&T Wireless Inc.
+310,390,Yorkville Telephone Cooperative
+310,400,Minnesota South. Wirel. Co. / Hickory
+310,410,AT&T Wireless Inc.
+310,420,Cincinnati Bell Wireless LLC
+310,430,GCI Communication Corp.
+310,440,Dobson Cellular Systems
+310,450,Northeast Colorado Cellular Inc.
+310,460,TMP Corporation
+310,470,Docomo
+310,480,Choice Phone LLC
+310,490,Triton PCS
+310,500,Public Service Cellular Inc.
+310,510,Airtel Wireless LLC
+310,520,VeriSign
+310,530,West Virginia Wireless
+310,560,AT&T Wireless Inc.
+310,570,MTPCS LLC
+310,580,PCS ONE
+310,590,Verizon Wireless
+310,600,New-Cell Inc.
+310,610,Elkhart TelCo. / Epic Touch Co.
+310,620,Coleman County Telco /Trans TX
+310,650,Jasper
+310,660,T-Mobile
+310,670,Northstar
+310,680,AT&T Wireless Inc.
+310,690,Keystone Wireless LLC
+310,700,Cross Valliant Cellular Partnership
+310,710,Arctic Slope Telephone Association Cooperative Inc.
+310,730,United States Cellular Corp.
+310,740,Telemetrix Inc.
+310,750,East Kentucky Network LLC
+310,760,Panhandle Telephone Cooperative Inc.
+310,770,Iowa Wireless Services LLC
+310,780,Message Express Co. / Airlink PCS
+310,800,T-Mobile
+310,830,Caprock Cellular Ltd.
+310,850,Aeris Comm. Inc.
+310,860,Texas RSA 15B2 Limited Partnership
+310,870,Kaplan Telephone Company Inc.
+310,890,Verizon Wireless
+310,900,Cable & Communications Corp.
+310,910,Verizon Wireless
+310,920,Get Mobile Inc.
+310,940,Poka Lambro Telco Ltd.
+310,950,Unknown
+310,960,Uintah Basin Electronics Telecommunications Inc.
+310,980,AT&T Wireless Inc.
+310,990,E.N.M.R. Telephone Coop.
+310,999,Various Networks
+311,10,Missouri RSA No 5 Partnership
+311,20,Missouri RSA No 5 Partnership
+311,50,Thumb Cellular Limited Partnership
+311,70,Wisconsin RSA #7 Limited Partnership
+311,110,Verizon Wireless
+311,120,Choice Phone LLC
+311,140,Cross Wireless Telephone Co.
+311,170,PetroCom
+311,220,United States Cellular Corp.
+311,250,Wave Runner LLC
+311,260,SLO Cellular Inc / Cellular One of San Luis
+311,270,Verizon Wireless
+311,271,Verizon Wireless
+311,272,Verizon Wireless
+311,273,Verizon Wireless
+311,274,Verizon Wireless
+311,275,Verizon Wireless
+311,276,Verizon Wireless
+311,277,Verizon Wireless
+311,278,Verizon Wireless
+311,279,Verizon Wireless
+311,280,Verizon Wireless
+311,281,Verizon Wireless
+311,282,Verizon Wireless
+311,283,Verizon Wireless
+311,284,Verizon Wireless
+311,285,Verizon Wireless
+311,286,Verizon Wireless
+311,287,Verizon Wireless
+311,288,Verizon Wireless
+311,289,Verizon Wireless
+311,300,Nexus Communications Inc.
+311,310,Lamar County Cellular
+311,311,Farmers
+311,330,Michigan Wireless LLC
+311,340,Illinois Valley Cellular RSA 2 Partnership
+311,350,Sagebrush Cellular Inc.
+311,370,GCI Communication Corp.
+311,390,Verizon Wireless
+311,410,Iowa RSA No. 2 Limited Partnership
+311,420,Northwest Missouri Cellular Limited Partnership
+311,430,RSA 1 Limited Partnership
+311,440,Bluegrass Wireless LLC
+311,460,Fisher Wireless Services Inc.
+311,480,Verizon Wireless
+311,481,Verizon Wireless
+311,482,Verizon Wireless
+311,483,Verizon Wireless
+311,484,Verizon Wireless
+311,485,Verizon Wireless
+311,486,Verizon Wireless
+311,487,Verizon Wireless
+311,488,Verizon Wireless
+311,489,Verizon Wireless
+311,490,Sprint Spectrum
+311,500,Cambridge Telephone Company Inc.
+311,590,California RSA No. 3 Limited Partnership
+311,610,North Dakota Network Company
+311,650,United Wireless Communications Inc.
+311,670,Pine Belt Cellular Inc.
+311,710,Northeast Wireless Networks LLC
+311,800,Bluegrass Wireless LLC
+311,810,Bluegrass Wireless LLC
+311,830,Thumb Cellular Limited Partnership
+311,860,Uintah Basin Electronics Telecommunications Inc.
+311,870,Sprint Spectrum
+311,880,Sprint Spectrum
+311,920,Missouri RSA No 5 Partnership
+312,10,Missouri RSA No 5 Partnership
+312,30,Cross Wireless Telephone Co.
+312,40,Custer Telephone Cooperative Inc.
+312,90,Allied Wireless Communications Corporation
+312,120,East Kentucky Network LLC
+312,130,East Kentucky Network LLC
+312,160,RSA 1 Limited Partnership
+312,170,Iowa RSA No. 2 Limited Partnership
+312,180,Keystone Wireless LLC
+312,190,Sprint Spectrum
+312,220,Missouri RSA No 5 Partnership
+312,230,North Dakota Network Company
+312,270,Cellular Network Partnership LLC
+312,280,Cellular Network Partnership LLC
+312,290,Uintah Basin Electronics Telecommunications Inc.
+312,530,Sprint Spectrum
+316,10,Sprint Spectrum
+316,11,Southern Communications Services Inc.
+330,11,Puerto Rico Telephone Company Inc. (PRTC)
+330,110,Puerto Rico Telephone Company Inc. (PRTC)
+334,1,NEXTEL
+334,2,TelCel/America Movil
+334,3,Movistar/Pegaso
+334,4,AT&T/IUSACell
+334,5,AT&T/IUSACell
+334,9,NEXTEL
+334,10,NEXTEL
+334,20,TelCel/America Movil
+334,30,Movistar/Pegaso
+334,40,AT&T/IUSACell
+334,50,AT&T/IUSACell
+334,60,SAI PCS
+334,70,Operadora Unefon SA de CV
+334,80,Operadora Unefon SA de CV
+334,90,NEXTEL
+338,20,Cable & Wireless
+338,50,DIGICEL/Mossel
+338,110,Cable & Wireless
+338,180,Cable & Wireless
+340,1,Orange Caribe
+340,2,Outremer Telecom
+340,3,TelCell GSM
+340,8,Dauphin Telecom SU (Guadeloupe Telecom)
+340,11,TelCell GSM
+340,12,UTS Caraibe
+340,20,Bouygues/DigiCel
+342,50,Digicel
+342,299,Failed Calls / Ozone
+342,600,Flow / Lime
+342,750,Digicel
+342,810,Cingular Wireless
+342,820,Sunbeach
+344,3,imobile / APUA
+344,30,imobile / APUA
+344,92,Flow
+344,93,Digicel
+344,920,Flow
+344,930,Digicel
+346,1,Logic
+346,6,Digicel Ltd.
+346,50,Digicel
+346,140,Flow / Lime
+348,170,LIME
+348,570,Caribbean Cellular
+348,770,Digicel
+350,0,Bermuda Digital Communications Ltd (BDC) / One
+350,1,Digicel / Telecommunications (Bermuda & West Indies) Ltd (Digicel Bermuda)
+350,2,M3 Wireless Ltd
+350,99,CellOne Ltd
+350,299,Failed Calls
+352,30,Digicel
+352,50,Digicel
+352,110,Cable & Wireless
+354,860,Cable & Wireless
+356,50,Digicel
+356,70,UTS Cariglobe
+356,110,Cable & Wireless
+358,30,Cingular Wireless
+358,50,Digicel (St Lucia) Limited
+358,110,Cable & Wireless
+360,10,Cingular
+360,50,Digicel
+360,70,Digicel
+360,100,Cingular
+360,110,C & W
+362,51,TELCELL GSM
+362,69,Polycom N.V./ Digicel
+362,91,SETEL GSM
+362,95,EOCG Wireless NV
+362,630,Cingular Wireless
+362,951,UTS Wireless
+362,999,Fix Line
+363,1,SETAR
+363,2,Digicel
+363,20,Digicel
+363,299,MIO
+364,3,Smart Communications
+364,30,Cybercell / BaTelCo
+364,39,Cybercell / BaTelCo
+364,390,Cybercell / BaTelCo
+364,490,Aliv
+365,840,Flow
+365,850,Digicel
+366,20,Cingular Wireless/Digicel
+366,50,Wireless Ventures (Dominica) Ltd (Digicel Dominica)
+366,110,C & W
+368,1,CubaCel/C-COM
+368,999,Fix Line
+370,1,Orange
+370,2,Claro
+370,3,TRIcom
+370,4,Viva
+372,1,Comcel
+372,2,Digicel
+372,3,Natcom
+374,12,Bmobile/TSTT
+374,120,Bmobile/TSTT
+374,130,Digicel
+374,140,LaqTel Ltd.
+376,50,Digicel TCI Ltd / Digicel
+376,350,Cable & Wireless (TCI) Ltd
+376,352,IslandCom Communications Ltd.
+400,1,Azercell
+400,2,Bakcell
+400,3,FONEX
+400,4,Nar Mobile
+400,6,Naxtel
+401,1,Beeline/KaR-Tel LLP
+401,2,K-Cell
+401,7,Dalacom/Altel
+401,77,Tele2/NEO/MTS
+402,11,B-Mobile
+402,17,Bhutan Telecom Ltd (BTL)
+402,77,TashiCell
+404,1,Aircel Digilink India
+404,4,Idea Cellular Ltd.
+404,5,Fascel
+404,7,Idea Cellular Ltd.
+404,9,Reliance Telecom Private
+404,10,Bharti Airtel Limited (Delhi)
+404,11,Sterling Cellular Ltd.
+404,12,Escotel Mobile Communications
+404,13,Barakhamba Sales & Serv.
+404,14,Spice
+404,15,Aircel Digilink India
+404,16,Hexcom India
+404,17,Aircel
+404,18,Reliance Telecom Private
+404,19,Escotel Mobile Communications
+404,20,Unknown
+404,22,Idea Cellular Ltd.
+404,24,Idea Cellular Ltd.
+404,25,Aircel
+404,27,Unknown
+404,28,Aircel
+404,29,Aircel
+404,30,Usha Martin Telecom
+404,33,Aircel
+404,34,BSNL
+404,36,Reliance Telecom Private
+404,38,BSNL
+404,41,RPG Cellular
+404,42,Aircel
+404,43,Vodafone/Essar/Hutch
+404,44,Spice
+404,45,Bharti Airtel Limited (Karnataka) (India)
+404,50,Reliance Telecom Private
+404,51,BSNL
+404,52,Reliance Telecom Private
+404,53,BSNL
+404,54,BSNL
+404,55,BSNL
+404,56,Escotel Mobile Communications
+404,57,BSNL
+404,58,BSNL
+404,59,BSNL
+404,60,Aircel Digilink India
+404,62,BSNL
+404,64,BSNL
+404,66,BSNL
+404,67,Reliance Telecom Private
+404,68,Mahanagar Telephone Nigam
+404,69,Mahanagar Telephone Nigam
+404,70,Hexacom India
+404,71,BSNL
+404,72,BSNL
+404,73,BSNL
+404,74,BSNL
+404,75,BSNL
+404,76,BSNL
+404,77,BSNL
+404,78,Idea Cellular Ltd.
+404,79,CellOne A&N
+404,80,BSNL
+404,81,BSNL
+404,82,Escorts Telecom Ltd.
+404,83,Reliable Internet Services
+404,85,Reliance Telecom Private
+404,86,Barakhamba Sales & Serv.
+404,87,Escorts Telecom Ltd.
+404,88,Escorts Telecom Ltd.
+404,89,Escorts Telecom Ltd.
+404,998,Fix Line
+404,999,Various Networks
+405,5,Fascel Limited
+405,34,TATA / Karnataka
+405,53,AirTel
+405,87,Reliance Telecom Private
+410,1,Jazz
+410,3,Ufone
+410,4,Zong
+410,5,SCOM
+410,6,Telenor
+410,7,Jazz
+410,8,Instaphone
+410,299,Failed Calls / Warid
+412,1,AWCC
+412,3,WaselTelecom (WT)
+412,20,Roshan
+412,30,Etisalat
+412,40,MTN
+412,50,Etisalat
+412,80,Mobifone
+412,88,Mobifone
+413,1,Mobitel Ltd.
+413,2,MTN/Dialog
+413,3,Etisalat/Tigo
+413,5,Airtel
+413,8,H3G Hutchison
+414,1,Myanmar Post & Teleco.
+414,5,Oreedoo
+414,6,Telenor
+414,9,Mytel (Myanmar
+414,999,Fix Line (Myanmar
+415,1,MIC1 (Alfa)
+415,3,MIC2/LibanCell/MTC
+415,32,Cellis
+415,33,Cellis
+415,34,FTML Cellis
+415,35,Cellis
+415,36,MIC2/LibanCell/MTC
+415,37,MIC2/LibanCell/MTC
+415,38,MIC2/LibanCell/MTC
+415,39,MIC2/LibanCell/MTC
+416,1,Zain
+416,2,Xpress
+416,3,Umniah
+416,77,Orange
+416,999,Fix Line
+417,1,Syriatel Holdings
+417,2,MTN/Spacetel
+417,9,Syriatel Holdings
+418,5,Asia Cell
+418,8,Sanatel
+418,20,Zain
+418,30,Orascom Telecom / Zain
+418,40,Korek
+418,45,Mobitel
+418,66,Fastlink
+418,82,Korek
+418,92,Itisaluna and Kalemat
+419,2,Zain
+419,3,Ooredoo
+419,4,Viva
+419,999,Fix Line
+420,1,STC/Al Jawal
+420,3,Etihad/Etisalat/Mobily
+420,4,Zain
+420,5,Virgin Mobile
+420,6,Lebara Mobile
+420,7,Zain
+421,1,Sabaphone
+421,2,MTN/Spacetel
+421,3,Yemen Mob. CDMA
+421,4,HITS/Y Unitel
+421,999,Fix Line
+422,2,Oman Mobile/GTO
+422,3,Nawras
+424,2,Etisalat
+424,3,DU
+425,1,Orange
+425,2,Cellcom
+425,3,Pelephone
+425,5,Jawwal
+425,6,Ooredoo
+425,7,Hot Mobile
+425,8,Golan Telecom
+425,9,We4G
+425,12,Pelephone
+425,13,Ituran
+425,14,YouPhone
+425,15,Home Cellular
+425,16,Rami Levy Communications
+425,17,Von waves
+425,19,019 Mobile / Telzar/AZI
+425,22,Maskyoo
+425,23,Beezz
+425,77,Hot Mobile
+425,299,Annatel Mobile / Bynet / Cellact
+426,1,Batelco
+426,2,Zain
+426,4,VIVA
+426,5,Royal Court
+426,299,Failed Calls
+426,999,Fix Line
+427,1,Ooredoo/Qtel
+427,2,Vodafone
+428,0,Skytel Co. Ltd
+428,88,Unitel
+428,91,Skytel Co. Ltd
+428,98,G-Mobile Corporation Ltd
+428,99,Mobicom
+429,1,NT Mobile / Namaste
+429,2,Ncell
+429,4,Smart Cell
+429,999,Fix Line
+430,2,Etisalat
+431,2,Etisalat
+432,11,MCI/TCI
+432,14,TKC/KFZO
+432,19,Mobile Telecommunications Company of Esfahan JV-PJS (MTCE)
+432,20,Rightel
+432,32,Taliya
+432,35,MTN/IranCell
+432,70,MTCE
+432,999,Fix Line
+434,1,Buztel
+434,2,Uzmacom
+434,4,Bee Line/Unitel
+434,5,Ucell/Coscom
+434,7,MTS/Uzdunrobita
+436,1,Tcell/JC Somoncom
+436,2,CJSC Indigo Tajikistan
+436,3,Megafon
+436,4,Babilon-M
+436,5,Bee Line
+436,12,Tcell/JC Somoncom
+437,1,Beeline
+437,2,KT Mobile
+437,3,Sem Mobile
+437,5,MegaCom
+437,9,O!
+437,10,Saima
+437,299,Failed Calls
+438,1,MTS/Barash Communication
+438,2,Altyn Asyr/TM-Cell
+440,0,Y-Mobile / SoftBank
+440,1,NTT DoCoMo / SoftBank
+440,2,NTT DoCoMo
+440,3,NTT DoCoMo
+440,4,SoftBank
+440,5,SoftBank
+440,6,SoftBank
+440,7,KDDI
+440,8,KDDI
+440,9,NTT DoCoMo
+440,10,NTT DoCoMo
+440,11,NTT DoCoMo / Rakuten Mobile
+440,12,NTT DoCoMo
+440,13,NTT DoCoMo
+440,14,NTT DoCoMo
+440,15,NTT DoCoMo
+440,16,NTT DoCoMo
+440,17,NTT DoCoMo
+440,18,NTT DoCoMo
+440,19,NTT DoCoMo
+440,20,SoftBank
+440,21,NTT DoCoMo / SoftBank
+440,22,NTT DoCoMo
+440,23,NTT DoCoMo
+440,24,NTT DoCoMo
+440,25,NTT DoCoMo
+440,26,NTT DoCoMo
+440,27,NTT DoCoMo
+440,28,NTT DoCoMo
+440,29,NTT DoCoMo
+440,30,NTT DoCoMo
+440,31,NTT DoCoMo
+440,32,NTT DoCoMo
+440,33,NTT DoCoMo
+440,34,NTT DoCoMo
+440,35,NTT DoCoMo
+440,36,NTT DoCoMo
+440,37,NTT DoCoMo
+440,38,NTT DoCoMo
+440,39,NTT DoCoMo
+440,40,SoftBank
+440,41,SoftBank
+440,42,SoftBank
+440,43,SoftBank
+440,44,SoftBank
+440,45,SoftBank
+440,46,SoftBank
+440,47,SoftBank
+440,48,SoftBank
+440,49,NTT DoCoMo
+440,50,KDDI
+440,51,KDDI
+440,52,KDDI
+440,53,KDDI
+440,54,KDDI
+440,55,KDDI
+440,56,KDDI
+440,58,NTT DoCoMo
+440,60,NTT DoCoMo
+440,61,NTT DoCoMo
+440,62,NTT DoCoMo
+440,63,NTT DoCoMo
+440,64,NTT DoCoMo
+440,65,NTT DoCoMo
+440,66,NTT DoCoMo
+440,67,NTT DoCoMo
+440,68,NTT DoCoMo
+440,69,NTT DoCoMo
+440,70,KDDI
+440,71,KDDI
+440,72,KDDI
+440,73,KDDI
+440,74,KDDI
+440,75,KDDI
+440,76,KDDI
+440,77,KDDI
+440,78,Okinawa Cellular
+440,79,KDDI
+440,80,KDDI
+440,81,KDDI
+440,82,KDDI
+440,83,KDDI
+440,84,KDDI
+440,85,KDDI
+440,86,KDDI
+440,87,NTT DoCoMo
+440,88,KDDI
+440,89,KDDI
+440,90,SoftBank
+440,92,SoftBank
+440,93,SoftBank
+440,94,SoftBank
+440,95,SoftBank
+440,96,SoftBank
+440,97,SoftBank
+440,98,SoftBank
+440,99,NTT DoCoMo
+441,40,NTT DoCoMo
+441,41,NTT DoCoMo
+441,42,NTT DoCoMo
+441,43,NTT DoCoMo
+441,44,NTT DoCoMo
+441,45,NTT DoCoMo
+441,61,SoftBank
+441,62,SoftBank
+441,63,SoftBank
+441,64,SoftBank
+441,65,SoftBank
+441,70,KDDI
+441,90,NTT DoCoMo
+441,91,NTT DoCoMo
+441,92,NTT DoCoMo
+441,93,NTT DoCoMo
+441,94,NTT DoCoMo
+441,98,NTT DoCoMo
+441,99,NTT DoCoMo
+450,2,olleh / KT
+450,3,SK Telecom
+450,4,olleh / KT
+450,5,SK Telecom
+450,6,LG U+
+450,7,KT Powertel
+450,8,olleh / KT
+450,11,SK Telecom
+450,12,SK Telecom
+450,299,Failed Calls
+452,1,MobiFone
+452,2,VinaPhone
+452,3,S-Fone/Telecom
+452,4,Viettel
+452,5,Vietnamobile
+452,6,Viettel
+452,7,Gmobile
+452,8,I-Telecom
+452,9,Reddi
+454,0,CSL Ltd.
+454,1,Citic Telecom Ltd.
+454,2,CSL Ltd.
+454,3,H3G/Hutchinson
+454,4,H3G/Hutchinson
+454,5,H3G/Hutchinson
+454,6,Vodafone/SmarTone
+454,7,China Unicom Ltd
+454,8,Truephone
+454,9,China Motion
+454,10,CSL/New World PCS Ltd.
+454,11,China-HongKong Telecom Ltd (CHKTL)
+454,12,China Mobile/Peoples
+454,13,China Mobile/Peoples
+454,14,H3G/Hutchinson
+454,15,Vodafone/SmarTone
+454,16,HKT/PCCW
+454,17,Vodafone/SmarTone
+454,18,CSL Ltd.
+454,19,HKT/PCCW
+454,20,HKT/PCCW
+454,24,Multibyte Info Technology Ltd
+454,28,China Mobile/Peoples
+454,29,HKT/PCCW
+454,31,CTExcel
+454,40,shared by private TETRA systems
+454,47,shared by private TETRA systems
+455,0,Smartone Mobile
+455,1,C.T.M. TELEMOVEL+
+455,2,China Telecom
+455,3,Hutchison Telephone Co. Ltd
+455,4,C.T.M. TELEMOVEL+
+455,5,Hutchison Telephone Co. Ltd
+455,6,Smartone Mobile
+456,1,Cellcard
+456,2,Smart
+456,3,QB/Cambodia Adv. Comms.
+456,4,QB
+456,5,Smart
+456,6,Smart
+456,8,Metfone
+456,9,Sotelco/Beeline
+456,11,Seatel
+456,18,Cellcard
+456,299,CooTel / MPTC
+457,1,Lao Tel
+457,2,ETL Mobile
+457,3,UNITEL/LAT
+457,8,Beeline/Tigo/Millicom
+460,0,China Mobile GSM
+460,1,China Unicom
+460,2,China Mobile GSM
+460,3,China Telecom
+460,4,China Space Mobile Satellite Telecommunications Co. Ltd (China Spacecom)
+460,5,China Telecom
+460,6,China Unicom
+460,7,China Mobile GSM
+460,999,Fix Line
+466,1,Far EasTone
+466,2,Far EasTone
+466,3,Far EasTone
+466,5,Asia Pacific Telecom Co. Ltd (APT)
+466,6,Far EasTone
+466,7,Far EasTone
+466,9,VMAX Telecom Co. Ltd
+466,10,Global Mobile Corp.
+466,11,Chunghwa Telecom LDM
+466,56,International Telecom Co. Ltd (FITEL)
+466,68,ACeS Taiwan - ACeS Taiwan Telecommunications Co Ltd
+466,88,KG Telecom
+466,89,T-Star/VIBO
+466,90,T-Star/VIBO
+466,92,Chunghwa Telecom LDM
+466,93,Mobitai
+466,97,Taiwan Cellular
+466,99,TransAsia
+467,192,Koryolink
+467,193,Sun Net
+467,299,Failed Calls / Kangsung Net
+470,1,GrameenPhone
+470,2,Airtel
+470,3,Banglalink
+470,4,TeleTalk
+470,5,Citycell
+470,6,Citycell
+470,7,Airtel / Airtel/Warid
+472,1,Dhiraagu/C&W
+472,2,Ooredo/Wataniya
+502,1,Art900
+502,10,DiGi
+502,11,Telekom Malaysia
+502,12,Maxis
+502,13,Celcom
+502,14,Telekom Malaysia
+502,16,DiGi
+502,17,Maxis
+502,18,U Mobile
+502,19,Celcom
+502,20,Electcoms Wireless Sdn Bhd
+502,150,Tune Talk
+502,151,Baraka Telecom Sdn Bhd
+502,152,Yes
+502,153,Webe Digital
+502,154,TT dotCom
+502,155,Samata Communications Sdn Bhd
+502,156,Altel Communications
+502,195,XOX Com
+502,198,Celcom
+502,299,MKN / Maxis Broadband / OCESB
+502,999,Fix Line
+505,1,Telstra
+505,2,Optus
+505,3,Vodafone
+505,4,Department of Defense
+505,5,The Ozitel Network Pty.
+505,6,H3G Ltd. / Vodafone
+505,7,Vodafone
+505,8,Railcorp/Vodafone
+505,9,Airnet Commercial Australia Ltd..
+505,10,Norfolk Telecom
+505,11,Telstra
+505,12,H3G Ltd. / Vodafone
+505,13,RailCorp / Railcorp/Vodafone
+505,14,AAPT Ltd.
+505,16,VicTrack
+505,19,Lycamobile
+505,24,Advanced Comm Tech Pty.
+505,26,Sinch
+505,30,Compatel
+505,35,MessageBird
+505,39,Telstra
+505,50,Pivotel
+505,71,Telstra
+505,72,Telstra
+505,88,Pivotel Group Ltd / Pivotel
+505,90,Optus
+505,99,Railcorp/Vodafone
+505,299,ACMA / Get SIM / Symbio
+505,999,Fix Line
+510,0,PT Pasifik Satelit Nusantara (PSN)
+510,1,Indosat/Satelindo/M3
+510,7,Flexi (PT Telkom) (CDMA) / Telkomsel
+510,8,Axis/Natrindo
+510,9,PT Smartfren Telecom Tbk
+510,10,Telkomsel
+510,11,PT. Excelcom
+510,21,Indosat/Satelindo/M3
+510,27,PT Sampoerna Telekomunikasi Indonesia (STI)
+510,28,PT Smartfren Telecom Tbk
+510,89,H3G CP
+510,99,Esia (PT Bakrie Telecom) (CDMA)
+510,999,Fix Line
+514,1,Telkomcel
+514,2,Timor Telecom
+514,3,Telemor
+514,299,Failed Calls
+514,999,Fix Line
+515,1,Globe Telecom
+515,2,Globe Telecom
+515,3,Smart
+515,5,SUN/Digitel
+515,18,RED Mobile/Cure
+515,88,Next Mobile
+515,999,Fix Line
+520,0,Hutch/CAT CDMA
+520,1,AIS/Advanced Info Service
+520,3,AIS/Advanced Info Service
+520,4,True Move/Orange
+520,5,Total Access (DTAC)
+520,15,ACT Mobile
+520,18,Total Access (DTAC)
+520,20,ACeS Thailand - ACeS Regional Services Co Ltd
+520,23,Digital Phone Co.
+520,99,True Move/Orange
+520,999,Fix Line
+525,1,Singtel
+525,2,Singtel
+525,3,MobileOne Ltd
+525,5,Starhub
+525,6,Starhub
+525,7,Singtel
+525,12,GRID Communications Pte Ltd
+525,999,Fix Line
+528,1,Telekom Brunei Bhd (TelBru)
+528,2,b-mobile
+528,11,Datastream (DTSCom)
+530,1,Vodafone
+530,2,Spark Mobile
+530,3,Walker Wireless Ltd.
+530,4,Telstra
+530,5,Spark Mobile
+530,24,2degrees
+530,28,2degrees
+530,999,Fix Line
+537,1,Pacific Mobile
+537,2,GreenCom PNG Ltd
+537,3,Digicel
+537,999,Fix Line
+539,1,Tonga Communications
+539,43,Shoreline Communication
+539,88,Digicel
+539,999,Fix Line
+540,1,BREEZE
+540,2,bemobile
+540,10,BREEZE
+541,1,SMILE
+541,5,DigiCel
+542,1,Vodafone
+542,2,DigiCell
+543,1,Manuia
+543,299,Failed Calls
+544,11,BlueSky
+544,780,ASTCA Mobile
+545,9,Kiribati Frigate
+546,1,OPT Mobilis
+547,15,Pacific Mobile Telecom (PMT)
+547,20,Vini/Tikiphone
+548,1,Vodafone / Bluesky
+549,1,Telecom Samoa Cellular Ltd.
+549,27,Samoatel Mobile
+549,999,Fix Line
+550,1,FSM Telecommunications Corp.
+551,299,Failed Calls / MINTA
+552,1,Palau National Communications Corp. (PNCC) (Palau
+552,2,PECI/PalauTel (Palau
+552,80,Palau Mobile Corp. (PMC) (Palau
+553,1,Tuvalu Telecommunication Corporation (TTC)
+555,1,Niue Telecom
+602,1,Orange
+602,2,Vodafone
+602,3,Etisalat
+602,4,WE
+602,299,Failed Calls
+603,1,Mobilis
+603,2,Djezzy
+603,3,Ooredoo
+604,0,Orange
+604,1,IAM
+604,2,inwi
+604,4,Al Houria Telecom
+604,5,inwi
+604,6,IAM
+604,99,Al Houria Telecom
+605,1,Orange
+605,2,TT Mobile
+605,3,Ooredoo
+605,6,Lycamobile
+605,999,Fix Line
+606,0,Libyana
+606,1,Al-Madar
+606,2,Al-Madar
+606,3,LibyaPhone Mobile
+606,6,Hatef
+607,1,Gamcel
+607,2,Africel
+607,3,Comium
+607,4,QCell
+608,1,Orange
+608,2,Free
+608,3,Expresso
+608,4,HAYO
+608,299,2s Mobile / Promobile
+609,1,Mattel
+609,2,Chinguitel
+609,10,Mauritel
+610,1,Malitel
+610,2,Orange
+610,3,Telecel
+611,1,Orange
+611,2,SotelGui
+611,3,Intercel
+611,4,MTN
+611,5,Cellcom
+612,1,Comstar
+612,2,Moov
+612,3,Orange
+612,4,Comium
+612,5,MTN
+612,6,OriCell
+612,7,Aircomm SA
+613,1,Telmob
+613,2,Orange
+613,3,Telecel
+614,1,Niger Telecoms
+614,2,Airtel
+614,3,Moov
+614,4,Orange
+615,1,Togo Cellulaire / TogoCel
+615,2,Telecel/MOOV
+615,3,Atlantique Telecom / Moov / Telecel/MOOV
+616,1,Libercom
+616,2,Moov
+616,3,MTN
+616,4,Bell Benin/BBCOM
+616,5,GloMobile
+617,1,my.t mobile
+617,2,Chili
+617,3,Chili
+617,10,Emtel
+618,1,MTN / Lonestar
+618,2,Libercell
+618,4,Novafone
+618,7,Orange
+618,20,LibTelco
+619,1,Orange
+619,2,Tigo/Millicom
+619,3,Africell
+619,4,Comium
+619,5,Africell
+619,7,Qcell
+619,25,Mobitel
+619,299,IPTel / Onlime / SierraTel
+620,1,MTN
+620,2,Vodafone
+620,3,Airtel
+620,4,Expresso Ghana Ltd
+620,5,National Security
+620,6,Airtel
+620,7,Glo
+620,8,Surfline
+620,299,Comsys
+621,1,Visafone
+621,20,Airtel
+621,25,Visafone
+621,27,Smile
+621,30,MTN
+621,40,ntel
+621,50,Glo Mobile
+621,60,9mobile
+621,99,Starcomms
+621,299,Alpha Technologies / Zodafones
+622,1,Airtel
+622,2,Tchad Mobile
+622,3,Moov
+622,4,Salam
+623,1,Moov
+623,2,Telecel
+623,3,Orange
+623,4,Azur
+623,299,Failed Calls / Socatel
+624,1,MTN
+624,2,Orange
+624,4,Nexttel
+625,1,CVMovel
+625,2,Unitel T+
+626,1,CSTmovel
+626,2,Unitel
+627,1,Orange
+627,3,Muni
+627,299,Failed Calls
+628,1,Libertis
+628,2,MOOV/Telecel
+628,3,Airtel
+628,4,Azur/Usan S.A.
+628,299,Failed Calls
+629,1,Airtel
+629,2,Azur SA (ETC)
+629,7,Warid
+629,10,MTN
+630,1,Vodacom
+630,2,Airtel
+630,5,Supercell
+630,86,Orange
+630,88,Yozma Timeturns
+630,89,TIGO/Oasis
+630,90,Africell
+630,299,Failed Calls / Tatem
+631,2,Unitel
+631,4,MoviCel
+632,1,Guinetel
+632,2,MTN
+632,3,Orange
+632,999,Fix	Line
+633,1,Cable & Wireless
+633,2,Smartcom
+633,5,Intelvision
+633,10,Airtel
+634,0,Canar Telecom
+634,1,Zain
+634,2,MTN
+634,3,MTN
+634,5,Canar Telecom
+634,6,Zain
+634,7,Sudani One
+634,8,Canar Telecom
+634,15,Sudani One
+634,22,MTN
+634,999,Fix Line
+635,10,MTN
+635,13,Airtel
+635,14,Airtel
+636,1,Ethio Mobile
+637,1,Telesom
+637,4,Somafone
+637,10,Nationlink
+637,19,Hormuud
+637,30,Golis
+637,50,Hormuud
+637,60,Nationlink
+637,70,Onkod
+637,71,Somtel
+637,82,Telcom Mobile
+637,299,AirSom / NETCO / SomNetworks
+638,1,Evatis
+639,1,Safaricom
+639,2,Safaricom
+639,3,Airtel
+639,4,Mobile Pay
+639,5,Airtel
+639,6,Finserve Africa
+639,7,Telkom
+639,9,Homeland Media
+639,10,Jamii Telecommunications
+639,11,Jambo Telcoms
+639,12,Infura
+639,299,eferio
+640,1,Tri Telecomm. Ltd.
+640,2,Tigo / MIC
+640,3,Zanzibar Telecom / Zantel
+640,4,Vodacom
+640,5,Airtel
+640,6,Dovetel (T) Ltd
+640,7,Tanzania Telecommunication Corporation
+640,8,Benson Informatics Ltd
+640,9,Halotel / Viettel
+640,11,Smile Communications
+640,13,WiAfrica
+640,14,MO Mobile
+640,99,Mkulima African Telecommunication
+641,1,Airtel
+641,4,Lycamobile
+641,10,MTN
+641,11,Mango
+641,14,Orange
+641,18,Suretelecom Uganda Ltd
+641,22,Airtel
+641,30,K2 Telecom Ltd
+641,33,Smile
+641,66,i-Tel Ltd
+641,999,Fix Line
+642,1,Leo
+642,2,Africel / Safaris
+642,3,ONAMOB
+642,7,Smart
+642,8,Lumitel
+642,82,Leo
+642,999,Fix	Line
+643,1,TMCEL
+643,3,Movitel
+643,4,Vodacom
+645,1,Airtel
+645,2,MTN
+645,3,Zamtel
+645,299,Failed Calls
+646,1,Airtel
+646,2,Orange
+646,3,Sacel
+646,4,Telma
+646,299,Bip
+647,0,Orange
+647,1,Maore Mobile
+647,2,Only
+647,3,Only
+647,4,ZEOP Mobile
+647,10,SFR
+648,1,NetOne
+648,3,Telecel
+648,4,Econet
+649,1,MTC
+649,2,Switch/Nam. Telec.
+649,3,TN Mobile
+649,299,Demshi
+650,1,TNM
+650,10,Airtel
+651,1,Vodacom
+651,2,Econet
+652,1,Mascom
+652,2,Orange
+652,4,beMobile
+653,1,EswatiniTelecom
+653,2,Eswatini Mobile
+653,10,Swazi MTN
+654,1,HURI
+654,2,Telma
+654,299,Failed Calls
+655,1,Vodacom
+655,2,Telkom
+655,5,Telkom
+655,6,Sentech
+655,7,Cell C
+655,10,MTN
+655,12,MTN
+655,19,Rain
+655,21,Cape Town Metropolitan
+655,38,Rain
+655,73,Rain
+655,74,Rain
+655,299,Lycamobile
+657,1,Eritel
+658,299,Failed Calls
+659,2,MTN
+659,3,Gemtel Ltd (South Sudan
+659,4,Network of The World Ltd (NOW) (South Sudan
+659,6,Zain
+659,299,Digitel / Failed Calls
+702,67,DigiCell
+702,68,International Telco (INTELCO)
+702,69,Smart
+702,99,Smart
+702,299,Failed Calls
+704,1,Claro
+704,2,TIGO/COMCEL
+704,3,Telefonica
+706,1,CLARO/CTE
+706,2,Digicel
+706,3,Telemovil
+706,4,Telefonica
+706,5,INTELFON SA de CV
+708,1,SERCOM/CLARO
+708,2,Telefonica/CELTEL
+708,30,HonduTel
+708,40,Digicel
+710,21,Empresa Nicaraguense de Telecomunicaciones SA (ENITEL)
+710,30,Movistar
+710,73,Claro
+710,999,Fix Line
+712,1,ICE
+712,2,ICE
+712,3,Claro
+712,4,Movistar
+712,20,Virtualis
+712,999,Fix Line
+714,1,Cable & W./Mas Movil
+714,2,Movistar
+714,3,Claro
+714,4,Digicel
+714,20,Movistar
+714,999,Fix Line
+716,1,GlobalStar
+716,2,GlobalStar
+716,6,Movistar
+716,7,Nextel
+716,10,Claro /Amer.Mov./TIM
+716,15,Viettel Mobile
+716,17,Nextel
+716,20,Claro /Amer.Mov./TIM
+722,7,Movistar / Movistar/Telefonica
+722,10,Movistar
+722,20,Nextel
+722,31,Claro
+722,34,Personal
+722,70,Movistar / Movistar/Telefonica
+722,299,Express / Imowi / IPLAN
+722,310,Claro
+722,320,Claro
+722,330,Claro
+722,340,Personal
+722,341,Personal
+722,999,Fix Line
+724,0,Nextel (Telet)
+724,1,Vivo S.A./Telemig
+724,2,TIM
+724,3,TIM
+724,4,TIM
+724,5,Claro/Albra/America Movil
+724,6,Vivo S.A./Telemig
+724,7,CTBC/Triangulo
+724,8,TIM
+724,10,Vivo S.A./Telemig
+724,11,Vivo S.A./Telemig
+724,12,Claro/Albra/America Movil
+724,15,Sercontel Cel
+724,16,Brazil Telcom
+724,19,Vivo S.A./Telemig
+724,23,Vivo S.A./Telemig
+724,24,Amazonia Celular S/A
+724,26,AmericaNet
+724,30,Oi (TNL PCS / Oi)
+724,31,Oi (TNL PCS / Oi)
+724,32,CTBC Celular SA (CTBC)
+724,33,CTBC Celular SA (CTBC)
+724,34,CTBC Celular SA (CTBC)
+724,37,Unicel do Brasil Telecomunicacoes Ltda
+724,38,Claro/Albra/America Movil
+724,39,Nextel (Telet)
+724,54,PORTO SEGURO TELECOMUNICACOES
+730,0,TESAM SA
+730,1,Entel Telefonia Mov
+730,2,TELEFONICA
+730,3,Claro
+730,4,Nextel SA
+730,5,Nextel SA
+730,6,Blue Two Chile SA
+730,7,TELEFONICA
+730,8,VTR Banda Ancha SA
+730,9,Nextel SA
+730,10,Entel Telefonia
+730,11,Celupago SA
+730,12,Telestar Movil SA
+730,13,Tribe Mobile SPA
+730,14,Netline Telefonica Movil Ltda
+730,15,Cibeles Telecom SA
+730,19,Sociedad Falabella Movil SPA
+732,1,Movistar
+732,2,Edatel
+732,20,UNE
+732,101,Claro
+732,102,Movistar
+732,103,Tigo
+732,111,Tigo
+732,123,Movistar
+732,130,Avantel
+732,142,UNE
+732,154,Virgin Mobile
+732,165,Tigo
+732,187,eTb
+732,199,SUMA movil
+732,220,Libre Tecnologias
+732,230,Setroc Mobile
+732,240,Flash Mobile
+732,299,ATnet / Eztalk Mobile / Gomobile
+732,360,WOM
+732,666,Claro
+732,999,Fix Line
+734,1,DigiTel C.A.
+734,2,DigiTel C.A.
+734,3,DigiTel C.A.
+734,4,Movistar/TelCel
+734,6,Movilnet C.A.
+736,1,Viva/Nuevatel
+736,2,Entel Pcs
+736,3,Tigo
+738,1,DigiCel
+738,2,Cellink Plus
+740,0,Failed Call(s) / MOVISTAR/OteCel
+740,1,Claro/Porta
+740,2,CNT Mobile
+740,3,Tuenti
+744,1,Hola/VOX
+744,2,Claro/Hutchison
+744,3,Compa
+744,4,Tigo/Telecel
+744,5,TIM/Nucleo/Personal
+746,1,Telesur
+746,2,Telecommunicatiebedrijf Suriname (TELESUR)
+746,3,Digicel
+746,4,UNIQA
+746,999,Fix Line
+748,0,Ancel/Antel
+748,1,Ancel/Antel
+748,3,Ancel/Antel
+748,7,MOVISTAR
+748,10,Claro/AM Wireless
+750,1,Sure
+901,5,Thuraya Satellite
+901,11,InMarSAT
+901,12,Maritime Communications Partner AS
+901,13,Antarctica
+901,14,AeroMobile

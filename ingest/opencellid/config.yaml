@@ -1,0 +1,59 @@
+# OpenCelliD adapter configuration — verified against the live endpoint on
+# 2026-07-04.
+#
+# VERIFICATION NOTES (session 4):
+# * Bulk full-export endpoint confirmed live:
+#     https://opencellid.org/ocid/downloads?token=<KEY>&type=full&file=cell_towers.csv.gz
+#   An invalid token returns HTTP 200 with a JSON body
+#   {"status":"error","message":"INVALID_TOKEN"} — fetch detects that body
+#   and fails cleanly rather than saving JSON as a .gz.
+# * Export columns (per the OpenCelliD wiki):
+#   radio, mcc, net, area, cell, unit, lon, lat, range, samples, changeable,
+#   created, updated, averageSignal. Radio: GSM/UMTS/LTE/CDMA (NR appears in
+#   newer exports and is accepted).
+# * The API key comes ONLY from the environment variable OPENCELLID_API_KEY
+#   at the moment of the request. It is never written to config, logs, fetch
+#   metadata, or any file — fetch_meta records the URL with the token
+#   redacted, and the test harness greps the data root to prove it.
+# * The key was NOT available in the session-4 build environment, so the
+#   live fetch is verified only to the endpoint/error-body level; the first
+#   real run needs OPENCELLID_API_KEY exported (see handover open item 1).
+
+source: opencellid
+
+download:
+  url: "https://opencellid.org/ocid/downloads"
+  params:
+    type: "full"
+    file: "cell_towers.csv.gz"
+  token_env_var: "OPENCELLID_API_KEY"
+
+raw_files:
+  export: "cell_towers.csv.gz"
+
+csv:
+  # full expected header, in order (drift check)
+  columns: [radio, mcc, net, area, cell, unit, lon, lat, range, samples,
+            changeable, created, updated, averageSignal]
+  # the only columns ever loaded in normalise. lon/lat are deliberately
+  # absent: coordinates are dropped at the earliest possible point and never
+  # survive into any output (brief s5.3 explicit exclusion).
+  usecols: [radio, mcc, net, area, cell, samples, updated]
+  chunk_rows: 1000000
+
+lookups:
+  mcc_country: "mcc_country.csv"            # committed in this directory
+  mcc_mnc_operator: "mcc_mnc_operator.csv"
+
+licence: >-
+  CC BY-SA 4.0. Attribution required: OpenCelliD, opencellid.org.
+  Share-alike applies to any published derivative; flag before anything
+  leaves internal use.
+refresh_cadence: "quarterly"
+max_row_delta_pct: 30
+
+coverage_note: >-
+  Crowdsourced: cell counts reflect observation density, not network size.
+  Cross-market comparisons say as much about contributor activity as about
+  infrastructure and must be labelled accordingly. Licence CC BY-SA 4.0,
+  attribution: OpenCelliD, opencellid.org.

@@ -1,21 +1,17 @@
-"""Adapter registry: maps CLI source names to adapter classes.
-
-Real adapters (anfr, fcc_asr, opencellid) are later sessions in the brief;
-they are pre-declared here so the CLI gives a precise "not yet implemented"
-message rather than "unknown source".
-"""
+"""Adapter registry: maps CLI source names to adapter classes."""
 from .anfr import AnfrAdapter
 from .fcc_asr import FccAsrAdapter
+from .opencellid import OpenCellIdAdapter
 from .stub import StubAdapter
 
 ADAPTERS = {
     "stub": StubAdapter,
     "anfr": AnfrAdapter,
     "fcc_asr": FccAsrAdapter,
+    "opencellid": OpenCellIdAdapter,
 }
 
 PLANNED = {
-    "opencellid": "OpenCelliD market aggregates adapter (brief session 4)",
 }
 
 
