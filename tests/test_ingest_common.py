@@ -165,7 +165,7 @@ def test_cli_argument_errors(ingest_root, capsys):
     assert cli_main(["stub", "fetch", "--all", "--date", DATE]) == 2  # both
     assert cli_main(["stub", "fetch", "--date", "01-07-2026"]) == 2   # bad date
     with pytest.raises(SystemExit):
-        cli_main(["anfr", "--all", "--date", DATE])           # planned, not built
+        cli_main(["fcc_asr", "--all", "--date", DATE])        # planned, not built
     with pytest.raises(SystemExit):
         cli_main(["nonsense", "--all", "--date", DATE])       # unknown
 

@@ -4,14 +4,15 @@ Real adapters (anfr, fcc_asr, opencellid) are later sessions in the brief;
 they are pre-declared here so the CLI gives a precise "not yet implemented"
 message rather than "unknown source".
 """
+from .anfr import AnfrAdapter
 from .stub import StubAdapter
 
 ADAPTERS = {
     "stub": StubAdapter,
+    "anfr": AnfrAdapter,
 }
 
 PLANNED = {
-    "anfr": "ANFR France structures adapter (brief session 2)",
     "fcc_asr": "FCC ASR United States structures adapter (brief session 3)",
     "opencellid": "OpenCelliD market aggregates adapter (brief session 4)",
 }
