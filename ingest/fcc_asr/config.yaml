@@ -1,0 +1,53 @@
+# FCC ASR adapter configuration — pinned against the live source on 2026-07-04.
+#
+# VERIFICATION NOTES (session 3):
+# * The historic bulk URL works exactly as the brief describes:
+#   r_tower.zip under the FCC ULS complete-downloads area, weekly full
+#   replace (file observed dated Sunday 2026-06-28).
+# * ZIP members verified: counts (row-count manifest), RA.dat (registrations,
+#   196,677 rows, 49 pipe-delimited fields), EN.dat (entities, 25 fields),
+#   CO.dat (coordinates, 18 fields), HS.dat (history), RE.dat, SC.dat.
+#   The .dat files are HEADERLESS pipe-delimited; layouts below were pinned
+#   empirically from the live extract because fcc.gov's documentation pages
+#   (pubacc_asr_intro.pdf, patower.xls) were unreachable at build time —
+#   see docs/session_03_handover.md for the verification evidence.
+# * Coordinates live in CO.dat (record type per row; 'T' = tower location),
+#   NOT in the registration file as the brief assumed.
+# * Heights are METRES (verified: median overall height 61.8, max 608 —
+#   consistent with the 200-foot/61 m registration threshold and the tallest
+#   US masts; a feet reading would be physically implausible).
+
+source: fcc_asr
+
+download:
+  url: "https://data.fcc.gov/download/pub/uls/complete/r_tower.zip"
+  page: "https://www.fcc.gov/wireless/data/public-access-files-database-downloads"
+
+raw_files:
+  zip: "r_tower.zip"
+
+zip_members:
+  counts: "counts"
+  registration: "RA.dat"
+  entity: "EN.dat"
+  coordinates: "CO.dat"
+  # retained raw, unparsed: HS.dat (history), RE.dat, SC.dat
+
+record_layout:
+  delimiter: "|"
+  encoding: "latin-1"
+  # expected field counts per record type (schema-drift check for a
+  # positional, headerless format)
+  field_counts:
+    RA: 49
+    EN: 25
+    CO: 18
+
+licence: "US Government public domain. No attribution constraint."
+refresh_cadence: "weekly"
+max_row_delta_pct: 10
+
+coverage_note: >-
+  ASR covers only structures requiring FAA notice (broadly above 200 feet or
+  near airport flight paths) plus voluntary registrations. It skews to macro
+  towers and excludes most rooftops and small structures.

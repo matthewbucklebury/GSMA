@@ -5,15 +5,16 @@ they are pre-declared here so the CLI gives a precise "not yet implemented"
 message rather than "unknown source".
 """
 from .anfr import AnfrAdapter
+from .fcc_asr import FccAsrAdapter
 from .stub import StubAdapter
 
 ADAPTERS = {
     "stub": StubAdapter,
     "anfr": AnfrAdapter,
+    "fcc_asr": FccAsrAdapter,
 }
 
 PLANNED = {
-    "fcc_asr": "FCC ASR United States structures adapter (brief session 3)",
     "opencellid": "OpenCelliD market aggregates adapter (brief session 4)",
 }
 
