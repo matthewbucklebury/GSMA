@@ -25,6 +25,7 @@ import pandas as pd
 import yaml
 
 from ..common.adapter import BaseAdapter
+from ..common.geo import dms_to_decimal  # noqa: F401  (re-exported; used in normalise)
 
 CONFIG = yaml.safe_load((Path(__file__).parent / "config.yaml").read_text())
 FIELD_MAP = yaml.safe_load((Path(__file__).parent / "field_map.yaml").read_text())
@@ -38,33 +39,6 @@ def _read_table(zf: zipfile.ZipFile, member: str) -> pd.DataFrame:
     except UnicodeDecodeError:
         text = raw.decode(csv_cfg["encoding_fallback"])
     return pd.read_csv(io.StringIO(text), sep=csv_cfg["delimiter"], dtype=str)
-
-
-def dms_to_decimal(deg, minute, sec, direction):
-    """DMS components -> signed WGS84 decimal degrees; None if unusable."""
-    def num(x, default=None):
-        if x is None or (isinstance(x, float) and x != x) or x == "":
-            return default
-        try:
-            v = float(x)
-        except (TypeError, ValueError):
-            return None
-        return None if v != v else v          # NaN guard (pandas blanks)
-    d = num(deg)
-    m = num(minute, 0.0)
-    s = num(sec, 0.0)
-    if d is None or m is None or s is None:
-        return None
-    if direction not in ("N", "S", "E", "W"):
-        return None
-    if not (0 <= m < 60 and 0 <= s < 60):
-        return None
-    value = d + m / 60 + s / 3600
-    if direction in ("S", "W"):
-        value = -value
-    if abs(value) > 180 or (direction in ("N", "S") and abs(value) > 90):
-        return None
-    return round(value, 6)
 
 
 class AnfrAdapter(BaseAdapter):
