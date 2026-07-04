@@ -1,2 +1,10 @@
+# data extraction (data/ pipeline)
 openpyxl>=3.1
 pymupdf>=1.24
+# ingest layer (ingest/ package) — the app server itself is stdlib-only
+requests>=2.31
+pandas>=2.0
+pyarrow>=14.0
+pyyaml>=6.0
+# tests
+pytest>=7.4

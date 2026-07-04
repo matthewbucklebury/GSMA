@@ -70,7 +70,14 @@ def api(path):
 
 
 def test_api_shapes():
-    meta = api("/api/meta")
+    try:
+        meta = api("/api/meta")
+    except OSError:
+        import os
+        if "PYTEST_CURRENT_TEST" in os.environ:
+            import pytest
+            pytest.skip("local explorer server not running on :8765")
+        raise  # script mode (main) prints SKIP for this
     assert set(meta["metrics"]) == {"towers", "towers_global", "market_share_pct"}, \
         f"unexpected metrics: {meta['metrics']}"
     assert len(meta["data_quality_levels"]) == 5
