@@ -2,3 +2,10 @@ data/gsma.db-wal
 data/gsma.db-shm
 __pycache__/
 *.pyc
+# ingest runtime artefacts (raw snapshots, normalised parquet, quarantine, logs, store)
+data/raw/
+data/normalised/
+data/quarantine/
+data/run_logs/
+data/ingest.db
+.pytest_cache/
