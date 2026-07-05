@@ -33,6 +33,9 @@ def test_meta_enumerates_three_sources(store):
         assert sum(s["coverage_counts"].values()) == 250
     assert by["anfr"]["coverage_counts"].get("covered_full") == 1
     assert by["fcc_asr"]["coverage_counts"].get("covered_partial") == 1
+    # opencellid holds real market aggregates since the 2026-07-05 live run
+    assert by["opencellid"]["coverage_counts"].get("covered_partial") > 150
+    assert by["opencellid"]["market_cell_stats"] > 1500
     assert by["anfr"]["structures"] > 90000
     assert by["fcc_asr"]["structures"] > 150000
     # caveats travel with the sources
@@ -46,6 +49,8 @@ def test_germany_returns_explicit_not_covered(store):
     statuses = {r["source"]: r["coverage_status"] for r in d["sources"]}
     assert statuses["anfr"] == "not_covered"
     assert statuses["fcc_asr"] == "not_covered"
+    # since the real OpenCelliD run, Germany is covered_partial there
+    assert statuses["opencellid"] == "covered_partial"
     # and the note explains it is remit, not absence of infrastructure
     notes = {r["source"]: r["coverage_note"] for r in d["sources"]}
     assert "remit" in notes["anfr"]

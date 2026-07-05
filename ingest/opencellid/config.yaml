@@ -16,8 +16,9 @@
 #   metadata, or any file — fetch_meta records the URL with the token
 #   redacted, and the test harness greps the data root to prove it.
 # * The key was NOT available in the session-4 build environment, so the
-#   live fetch is verified only to the endpoint/error-body level; the first
-#   real run needs OPENCELLID_API_KEY exported (see handover open item 1).
+#   live fetch was verified only to the endpoint/error-body level. The first
+#   real run (2026-07-05, session 6) exercised the full download: 114 MB
+#   compressed, 5,245,100 rows — see the session-4 handover addendum.
 
 source: opencellid
 

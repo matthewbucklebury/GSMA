@@ -23,12 +23,14 @@ Status: **complete**; one criterion partially met pending the OpenCelliD key.
   OpenCelliD market-stats table with the crowdsourced caveat and CC BY-SA
   attribution line.
 - **`data/ingest.db` is now committed** (65 MB) so the live Render demo
-  renders the layers. Contents are public-domain/Licence-Ouverte data (ANFR
-  + FCC); no OpenCelliD data is inside, so no share-alike question arises
-  yet. Raw snapshots, parquet, quarantine and run logs remain gitignored.
+  renders the layers. Raw snapshots, parquet, quarantine and run logs
+  remain gitignored. *(Update 2026-07-05, session 6: the store now also
+  carries the real OpenCelliD market aggregates — CC BY-SA 4.0, publication
+  with the existing attribution display approved.)*
 - An `opencellid` manifest was written with every market `not_covered` and
   an honest "no snapshot ingested yet (requires OPENCELLID_API_KEY)" note,
-  so all three sources enumerate all 250 ISO markets.
+  so all three sources enumerate all 250 ISO markets. *(Superseded by the
+  2026-07-05 real run: 192 markets now covered_partial.)*
 - Tests: `tests/test_explorer_ingest_api.py` calls the handler functions
   directly against the committed store (skips if absent) — three-source
   enumeration, Germany `not_covered`, FR/US detail invariants (ANFR
@@ -40,18 +42,22 @@ Status: **complete**; one criterion partially met pending the OpenCelliD key.
 |---|---|---|
 | 1 | One command per adapter, end to end, re-runnable | ✅ `python -m ingest {source} --all --date …`; idempotency covered by tests |
 | 2 | structures holds FR (ANFR) + US (ASR), owner populated for ASR, operators for ANFR | ✅ 98,698 FR (operators 100%), 196,648 US (owner 99.3%) |
-| 3 | market_cell_stats holds every market in the OpenCelliD export; no coordinates anywhere | ⚠️ Proven end to end on the fixture, incl. the byte-scan coordinate test; the **real** export needs `OPENCELLID_API_KEY` (unavailable in all sessions so far) |
+| 3 | market_cell_stats holds every market in the OpenCelliD export; no coordinates anywhere | ✅ **Fully met 2026-07-05** (session 6): real run over the 5,245,100-row live export → 1,948 rows across all 192 markets present; the byte-scan coordinate check re-run against the real artefacts (100 real coordinate sentinels vs every non-raw file under data/) found nothing |
 | 4 | Manifest enumerates 3 sources × all ISO markets; Germany → not_covered, not silence | ✅ 750 manifest rows; DE returns explicit not_covered for all three (API + UI) |
 | 5 | Explorer renders 3 layers side by side, source-tagged, ASR + OpenCelliD caveats visible | ✅ "Site registers (POC)" tab; caveats verbatim on source cards, coverage cards and data panels |
 | 6 | Validation catches corrupted fixture and fails cleanly with readable report | ✅ per-adapter tests: missing column/member, layout drift, absurd row delta |
 
 ## Open items (consolidated from sessions 2–5)
 
-1. **Export `OPENCELLID_API_KEY` and run the first real OpenCelliD ingest**;
-   then cut a real fixture and re-check criterion 3 on live data.
-2. Before OpenCelliD-derived numbers appear on the public Render site,
-   settle the CC BY-SA share-alike treatment (attribution line already
-   ships in the UI).
+1. ~~Export `OPENCELLID_API_KEY` and run the first real OpenCelliD ingest~~
+   **Done 2026-07-05 (session 6)** — criterion 3 above is now fully met on
+   live data, the fixture is real, and `data/ingest.db` carries the
+   OpenCelliD aggregates (see the session-4 handover addendum). Note the
+   Germany picker default no longer demos "honest emptiness" for all three
+   sources: OpenCelliD now shows DE as covered_partial with real rows.
+2. ~~Settle the CC BY-SA share-alike treatment~~ **Resolved (session 6)**:
+   publishing the aggregates on the public Render Explorer with the
+   existing attribution display was approved.
 3. FCC field-position cross-check against the official data dictionary when
    fcc.gov recovers; ASR status codes `A`/`I` remain mapped to `other`.
 4. Territory handling: ANFR keeps DOM-TOM under FR; ASR keeps PR/GU/VI under

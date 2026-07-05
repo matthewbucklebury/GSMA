@@ -33,8 +33,13 @@ HERE = Path(__file__).parent
 
 
 def _load_lookups():
-    country = pd.read_csv(HERE / CONFIG["lookups"]["mcc_country"], comment="#")
-    operator = pd.read_csv(HERE / CONFIG["lookups"]["mcc_mnc_operator"], comment="#")
+    # keep_default_na=False: Namibia's ISO2 is "NA", which pandas would
+    # otherwise read as NaN — its rows then carry a NULL country and the
+    # manifest calls the market not_covered (found on the first real run)
+    country = pd.read_csv(HERE / CONFIG["lookups"]["mcc_country"], comment="#",
+                          keep_default_na=False)
+    operator = pd.read_csv(HERE / CONFIG["lookups"]["mcc_mnc_operator"], comment="#",
+                           keep_default_na=False)
     return (dict(zip(country["mcc"], country["country_iso2"])),
             dict(zip(zip(operator["mcc"], operator["mnc"]),
                      operator["operator_name"])))
