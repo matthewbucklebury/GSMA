@@ -25,7 +25,6 @@ from urllib.parse import urlparse, parse_qs
 
 ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT.parent / "data" / "gsma.db"
-INGEST_DB_PATH = ROOT.parent / "data" / "ingest.db"
 STATIC = ROOT / "static"
 
 METRICS = ["towers", "towers_global", "market_share_pct"]
@@ -88,122 +87,6 @@ def rowdicts(rows):
     return [dict(r) for r in rows]
 
 # ---------------------------------------------------------------- handlers
-
-# ------------------------------------------------------------- ingest layers
-# Read-only views over data/ingest.db (the source-adapter store: structures,
-# market_cell_stats, source_manifest). Kept separate from gsma.db because the
-# snapshot rebuild would destroy it. All endpoints degrade gracefully when
-# the store has not been built.
-
-def ingest_db():
-    if not INGEST_DB_PATH.exists():
-        return None
-    con = sqlite3.connect(INGEST_DB_PATH)
-    con.row_factory = sqlite3.Row
-    return con
-
-def api_ingest_meta(q):
-    con = ingest_db()
-    if con is None:
-        return {"available": False,
-                "hint": "run the ingest adapters (python -m ingest <source> --all) "
-                        "to build data/ingest.db"}
-    sources = []
-    for s in con.execute("SELECT DISTINCT source FROM source_manifest ORDER BY source"):
-        src = s["source"]
-        cov = dict(con.execute(
-            """SELECT coverage_status, COUNT(*) FROM source_manifest
-               WHERE source=? GROUP BY coverage_status""", (src,)).fetchall())
-        meta = con.execute(
-            """SELECT licence, refresh_cadence, MAX(last_ingest) li
-               FROM source_manifest WHERE source=?""", (src,)).fetchone()
-        note = con.execute(
-            """SELECT coverage_note FROM source_manifest
-               WHERE source=? AND coverage_status != 'not_covered'
-               LIMIT 1""", (src,)).fetchone()
-        if not note:
-            note = con.execute(
-                "SELECT coverage_note FROM source_manifest WHERE source=? LIMIT 1",
-                (src,)).fetchone()
-        n_struct = con.execute(
-            "SELECT COUNT(*) FROM structures WHERE source=?", (src,)).fetchone()[0]
-        n_stats = con.execute(
-            "SELECT COUNT(*) FROM market_cell_stats WHERE source=?", (src,)).fetchone()[0]
-        snaps = [r[0] for r in con.execute(
-            """SELECT DISTINCT snapshot_date FROM structures WHERE source=?
-               UNION SELECT DISTINCT snapshot_date FROM market_cell_stats
-               WHERE source=? ORDER BY 1""", (src, src))]
-        covered = [r[0] for r in con.execute(
-            """SELECT country_iso2 FROM source_manifest
-               WHERE source=? AND coverage_status != 'not_covered'
-               ORDER BY country_iso2""", (src,))]
-        sources.append({
-            "source": src, "licence": meta["licence"],
-            "refresh_cadence": meta["refresh_cadence"], "last_ingest": meta["li"],
-            "coverage_counts": cov, "covered_markets": covered,
-            "caveat": note["coverage_note"] if note else None,
-            "structures": n_struct, "market_cell_stats": n_stats,
-            "snapshot_dates": snaps,
-        })
-    con.close()
-    return {"available": True, "sources": sources}
-
-def api_ingest_coverage(q):
-    iso2 = (q.get("iso2") or [""])[0].strip().upper()
-    if not re.fullmatch(r"[A-Z]{2}", iso2):
-        return {"error": "iso2 required, e.g. ?iso2=DE"}, 400
-    con = ingest_db()
-    if con is None:
-        return {"available": False}
-    rows = rowdicts(con.execute(
-        """SELECT source, coverage_status, coverage_note, licence, last_ingest
-           FROM source_manifest WHERE country_iso2=? ORDER BY source""", (iso2,)))
-    con.close()
-    return {"available": True, "iso2": iso2, "sources": rows}
-
-def api_ingest_country(iso2, q):
-    iso2 = iso2.strip().upper()
-    if not re.fullmatch(r"[A-Z]{2}", iso2):
-        return {"error": "bad iso2"}, 400
-    con = ingest_db()
-    if con is None:
-        return {"available": False}
-    out = {"available": True, "iso2": iso2, "coverage": rowdicts(con.execute(
-        """SELECT source, coverage_status, coverage_note, licence, last_ingest
-           FROM source_manifest WHERE country_iso2=? ORDER BY source""", (iso2,))),
-        "structures": {}, "market_stats": []}
-    for s in con.execute(
-            """SELECT DISTINCT source FROM structures WHERE country_iso2=?""", (iso2,)):
-        src = s["source"]
-        snap = con.execute(
-            """SELECT MAX(snapshot_date) FROM structures
-               WHERE source=? AND country_iso2=?""", (src, iso2)).fetchone()[0]
-        base = ("FROM structures WHERE source=? AND country_iso2=? "
-                "AND snapshot_date=?")
-        args = (src, iso2, snap)
-        out["structures"][src] = {
-            "snapshot_date": snap,
-            "count": con.execute(f"SELECT COUNT(*) {base}", args).fetchone()[0],
-            "with_owner": con.execute(
-                f"SELECT COUNT(*) {base} AND owner IS NOT NULL", args).fetchone()[0],
-            "with_operators": con.execute(
-                f"SELECT COUNT(*) {base} AND operators IS NOT NULL", args).fetchone()[0],
-            "types": dict(con.execute(
-                f"SELECT structure_type, COUNT(*) {base} GROUP BY structure_type "
-                f"ORDER BY 2 DESC", args).fetchall()),
-            "status": dict(con.execute(
-                f"SELECT status, COUNT(*) {base} GROUP BY status", args).fetchall()),
-            "top_owners": [list(r) for r in con.execute(
-                f"SELECT owner, COUNT(*) c {base} AND owner IS NOT NULL "
-                f"GROUP BY owner ORDER BY c DESC LIMIT 10", args)],
-        }
-    out["market_stats"] = rowdicts(con.execute(
-        """SELECT mcc, mnc, operator_name, radio, cell_count, sample_count,
-                  latest_update, snapshot_date
-           FROM market_cell_stats WHERE country_iso2=?
-           ORDER BY cell_count DESC LIMIT 100""", (iso2,)))
-    con.close()
-    return out
 
 def api_meta(q):
     con = db()
@@ -867,12 +750,7 @@ class Handler(BaseHTTPRequestHandler):
             m = re.fullmatch(r"/api/company/(\d+)", u.path)
             if m:
                 return self._reply(api_company(int(m.group(1)), q))
-            m = re.fullmatch(r"/api/ingest/country/([A-Za-z]{2})", u.path)
-            if m:
-                return self._reply(api_ingest_country(m.group(1), q))
             route = {
-                "/api/ingest/meta": api_ingest_meta,
-                "/api/ingest/coverage": api_ingest_coverage,
                 "/api/meta": api_meta, "/api/league": api_league,
                 "/api/mnos": api_mnos, "/api/countries": api_countries,
                 "/api/map": api_map, "/api/compare": api_compare,

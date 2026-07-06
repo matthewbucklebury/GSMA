@@ -72,7 +72,6 @@ function loadTab(tab, force = false) {
   if (tab === "map") loadMap(force);
   if (tab === "explore") renderCompare();
   if (tab === "entry") loadOverrides();
-  if (tab === "registers") loadRegisters();
   if (tab === "about") renderAbout();
 }
 
@@ -877,126 +876,6 @@ function applyHash() {
   closeDrawer();
 }
 window.addEventListener("hashchange", applyHash);
-
-/* ------------------------------------------------ site registers (ingest POC) */
-const SOURCE_LABELS = {
-  anfr: "ANFR — France radio sites",
-  fcc_asr: "FCC ASR — US antenna structures",
-  opencellid: "OpenCelliD — market cell stats",
-  stub: "Stub (test adapter)",
-};
-const COV_LABEL = { covered_full: "covered (full)", covered_partial: "covered (partial)",
-                    not_covered: "not covered" };
-const regionName = (() => {
-  try { const dn = new Intl.DisplayNames(["en"], { type: "region" });
-        return iso => { try { return dn.of(iso) || iso; } catch { return iso; } }; }
-  catch { return iso => iso; }
-})();
-let regMeta = null;
-
-async function loadRegisters() {
-  if (!regMeta) regMeta = await apiRaw("/api/ingest/meta");
-  const box = $("#reg-sources");
-  if (!regMeta.available) {
-    box.innerHTML = `<div class="note-box">The ingest store (data/ingest.db) has not been
-      built. Run the adapters: <code>python -m ingest anfr --all</code> etc.</div>`;
-    return;
-  }
-  box.innerHTML = regMeta.sources.map(s => {
-    const covered = (s.coverage_counts.covered_full || 0) +
-                    (s.coverage_counts.covered_partial || 0);
-    const rows = s.structures || s.market_cell_stats;
-    return `<div class="src-card">
-      <h3>${esc(SOURCE_LABELS[s.source] || s.source)} <span class="pill">${esc(s.source)}</span></h3>
-      <div class="kv"><b>${fmt(rows)}</b> ${s.structures ? "structures" : "market stat rows"}
-        · ${covered} market${covered === 1 ? "" : "s"} covered · refresh ${esc(s.refresh_cadence || "—")}</div>
-      <div class="kv">Last ingest: ${s.last_ingest ? esc(s.last_ingest.slice(0, 10)) : "—"}
-        ${s.snapshot_dates.length ? `· snapshots: ${esc(s.snapshot_dates.join(", "))}` : ""}</div>
-      <div class="kv">Licence: ${esc(s.licence || "—")}</div>
-      ${s.caveat ? `<div class="caveat">${esc(s.caveat)}</div>` : ""}
-    </div>`;
-  }).join("");
-  // ISO datalist with names
-  const isos = new Set();
-  regMeta.sources.forEach(s => s.covered_markets.forEach(i => isos.add(i)));
-  ["FR", "US", "DE", "GB", "KE", "BR", "IN", "JP"].forEach(i => isos.add(i));
-  $("#dl-iso2").innerHTML = [...isos].sort().map(i =>
-    `<option value="${i}">${esc(regionName(i))}</option>`).join("");
-  renderRegisterCountry();
-}
-
-async function renderRegisterCountry() {
-  const raw = $("#reg-country").value.trim();
-  let iso = raw.toUpperCase();
-  if (!/^[A-Z]{2}$/.test(iso)) {
-    // try to resolve a typed name against the datalist
-    const opt = [...$("#dl-iso2").options].find(o =>
-      o.textContent.toLowerCase() === raw.toLowerCase());
-    if (opt) iso = opt.value; else return;
-  }
-  const d = await apiRaw(`/api/ingest/country/${iso}`);
-  if (!d.available) return;
-  const name = regionName(iso);
-  $("#reg-coverage").innerHTML = d.coverage.map(c => `
-    <div class="src-card">
-      <h3>${esc(SOURCE_LABELS[c.source] || c.source)}
-        <span class="pill ${c.coverage_status}">${COV_LABEL[c.coverage_status] || c.coverage_status}</span></h3>
-      <div class="kv">${esc(name)} — ${c.coverage_status === "not_covered"
-        ? "not covered by this source; the empty result is by design, not absence of infrastructure"
-        : "in this source's remit"}</div>
-      <div class="caveat">${esc(c.coverage_note || "")}</div>
-    </div>`).join("");
-  const det = $("#reg-detail");
-  let html = "";
-  for (const [src, s] of Object.entries(d.structures)) {
-    const maxN = s.top_owners.length ? s.top_owners[0][1] : 1;
-    html += `<div class="chart-box">
-      <h3>${esc(SOURCE_LABELS[src] || src)} — ${esc(name)}
-        <span class="muted small">snapshot ${esc(s.snapshot_date)}</span></h3>
-      <div class="stat-row">
-        <div class="stat-tile"><div class="v">${fmt(s.count)}</div><div class="k">structures</div></div>
-        <div class="stat-tile"><div class="v">${(100 * s.with_owner / s.count).toFixed(1)}%</div><div class="k">with owner</div></div>
-        <div class="stat-tile"><div class="v">${(100 * s.with_operators / s.count).toFixed(1)}%</div><div class="k">with operators</div></div>
-      </div>
-      <div class="grid2">
-        <div><h3 class="small muted">Top owners (registrants)</h3>
-          ${s.top_owners.map(([o, n]) => `<div class="owner-bar">
-            <span class="lbl" title="${esc(o)}">${esc(o)}</span>
-            <span class="bar" style="width:${Math.max(2, 200 * n / maxN)}px"></span>
-            <span class="val">${fmt(n)}</span></div>`).join("")}</div>
-        <div><h3 class="small muted">Structure types / status</h3>
-          <table class="data">${Object.entries(s.types).map(([t, n]) =>
-            `<tr><td>${esc(t)}</td><td class="num">${fmt(n)}</td></tr>`).join("")}</table>
-          <div class="small muted" style="margin-top:6px">${Object.entries(s.status).map(([t, n]) =>
-            `${esc(t)}: ${fmt(n)}`).join(" · ")}</div></div>
-      </div>
-    </div>`;
-  }
-  if (d.market_stats.length) {
-    html += `<div class="chart-box">
-      <h3>${esc(SOURCE_LABELS.opencellid)} — ${esc(name)}</h3>
-      <table class="data"><tr><th>Operator</th><th>MCC</th><th>MNC</th><th>Radio</th>
-        <th class="num">Cells</th><th class="num">Samples</th><th>Latest update</th></tr>
-      ${d.market_stats.map(m => `<tr><td>${esc(m.operator_name || "—")}</td>
-        <td>${m.mcc}</td><td>${m.mnc}</td><td>${esc(m.radio)}</td>
-        <td class="num">${fmt(m.cell_count)}</td><td class="num">${fmt(m.sample_count)}</td>
-        <td>${esc(m.latest_update || "")}</td></tr>`).join("")}</table>
-      <div class="src">Counts reflect observation density, not network size. Source:
-        OpenCelliD, opencellid.org (CC BY-SA 4.0).</div>
-    </div>`;
-  }
-  if (!html) {
-    html = `<div class="note-box">No structure or market data ingested for
-      ${esc(name)} — the coverage cards above say whether that is a coverage gap
-      or a source-remit boundary.</div>`;
-  }
-  det.innerHTML = html;
-}
-$("#reg-country").addEventListener("change", renderRegisterCountry);
-$("#reg-quick").addEventListener("click", e => {
-  const chip = e.target.closest("[data-iso]");
-  if (chip) { $("#reg-country").value = chip.dataset.iso; renderRegisterCountry(); }
-});
 
 /* ------------------------------------------------ about */
 function renderAbout() {

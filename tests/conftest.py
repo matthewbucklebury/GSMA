@@ -2,8 +2,6 @@
 
 - `con`: SQLite connection to the Explorer snapshot database, for the legacy
   v2 checks in test_changes.py (which also still runs as a plain script).
-- `ingest_root`: points the ingest layer at a temporary data root via
-  INGEST_DATA_ROOT, so no test touches the repo's real data/ directory.
 """
 import sqlite3
 from pathlib import Path
@@ -23,15 +21,9 @@ def con():
     c.close()
 
 
-@pytest.fixture()
-def ingest_root(tmp_path, monkeypatch):
-    monkeypatch.setenv("INGEST_DATA_ROOT", str(tmp_path))
-    return tmp_path
-
-
 @pytest.fixture(autouse=True)
 def no_network(monkeypatch):
-    """Structural guarantee that no test touches the network (brief s6).
+    """Structural guarantee that no test touches the network.
 
     Any socket connection to a non-loopback address fails loudly. Loopback
     stays open for the legacy explorer-API test, which skips if no local
