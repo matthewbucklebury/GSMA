@@ -194,26 +194,3 @@ a.link:hover { text-decoration: underline; }
   padding: 10px 14px; border-radius: 6px; margin: 10px 0; font-size: 13px;
   color: var(--text-secondary); max-width: 900px;
 }
-/* site registers (ingest POC) */
-.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-.src-card {
-  background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
-  padding: 12px 14px;
-}
-.src-card h3 { margin: 0 0 6px 0; font-size: 14px; display: flex; gap: 8px; align-items: center; }
-.src-card .kv { font-size: 12.5px; color: var(--text-secondary); margin: 2px 0; }
-.src-card .caveat {
-  margin-top: 8px; padding: 8px 10px; border-left: 3px solid var(--series-3);
-  background: var(--surface-1); border-radius: 5px; font-size: 12px;
-  color: var(--text-secondary);
-}
-.pill.covered_full { border-color: var(--good); color: var(--good); }
-.pill.covered_partial { border-color: var(--warning); color: var(--warning); }
-.pill.not_covered { border-color: var(--other); color: var(--text-muted); }
-.owner-bar { display: flex; align-items: center; gap: 8px; margin: 3px 0; font-size: 12.5px; }
-.owner-bar .bar { height: 12px; border-radius: 3px; background: var(--series-1); min-width: 2px; }
-.owner-bar .lbl { min-width: 240px; max-width: 240px; overflow: hidden; text-overflow: ellipsis;
-  white-space: nowrap; color: var(--text-secondary); }
-.owner-bar .val { font-variant-numeric: tabular-nums; color: var(--text-primary); }
-.chip.link { cursor: pointer; }
-.chip.link:hover { border-color: var(--accent); color: var(--accent); }

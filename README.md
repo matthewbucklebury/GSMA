@@ -8,6 +8,13 @@ sites in each country — built from the files in this repository:
   `Asia guide[1].pdf`, `Africa guide[1].pdf` — TowerXchange country-by-country
   regional guides, whose per-country ownership data is presented as pie charts.
 
+> **Scope note (2026-07-06).** This repository is the **baseline**: a clean,
+> presentable read-out of the guides + league table with manual data entry.
+> The multi-source ingest layer (ANFR, FCC ASR, OpenCelliD) and everything
+> built on top of it moved to the `tower-market-intelligence` platform repo,
+> seeded from this repo's history at commit `9a70acd`. See
+> `docs/fork_plan.md` for the split and each fork's workload.
+
 ## Quick start
 
 ```bash
